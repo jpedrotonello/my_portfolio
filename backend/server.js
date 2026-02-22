@@ -56,8 +56,32 @@ function loadPortfolioData() {
   }
 }
 
+// ─── About Me Context ─────────────────────────────────────────────────────────
+function loadAboutMeContext() {
+  try {
+    const aboutMePath = path.resolve(__dirname, "aboutme.txt");
+    return fs.readFileSync(aboutMePath, "utf-8");
+  } catch (err) {
+    console.error("[Backend] Could not load aboutme.txt:", err.message);
+    return "";
+  }
+}
+
 // ─── System Prompt ────────────────────────────────────────────────────────────
-function buildSystemPrompt(portfolioJson) {
+function buildSystemPrompt(portfolioJson, aboutMeContext) {
+  let contextSection = `Here is João Pedro Tonello's complete portfolio and resume data (use ALL of this information to answer questions):
+
+${portfolioJson}`;
+  
+  if (aboutMeContext.trim()) {
+    contextSection += `
+
+--- ADDITIONAL PERSONAL CONTEXT ---
+The following is additional personal context about João that should inform your responses:
+
+${aboutMeContext}`;
+  }
+  
   return `You are an enthusiastic, warm, and highly knowledgeable AI assistant representing João Pedro Tonello's professional portfolio.
 
 Your personality:
@@ -84,9 +108,7 @@ Tone examples:
 - Instead of "He worked at Zurich" → "At Zurich Insurance (2022–2025), João built a subrogation prioritization system that recovered 2% of previously missed claims, generating millions in annualized revenue"
 - When describing projects, always include the business value, technical sophistication, and measurable outcomes
 
-Here is João Pedro Tonello's complete portfolio and resume data (use ALL of this information to answer questions):
-
-${portfolioJson}`;
+${contextSection}`;
 }
 
 // ─── Chat Endpoint ────────────────────────────────────────────────────────────
@@ -115,7 +137,8 @@ app.post("/api/chat", async (req, res) => {
   }
 
   const portfolioData = loadPortfolioData();
-  const systemPrompt = buildSystemPrompt(portfolioData);
+  const aboutMeContext = loadAboutMeContext();
+  const systemPrompt = buildSystemPrompt(portfolioData, aboutMeContext);
 
   try {
     const response = await fetch("https://api.openai.com/v1/chat/completions", {

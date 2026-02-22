@@ -1,0 +1,31 @@
+PERSONAL INSIGHTS AND PHILOSOPHY
+
+I'm passionate about solving real-world problems with AI and data science. Beyond the technical skills, here's what drives me:
+
+WORK PHILOSOPHY
+- I believe in shipping high-impact solutions quickly, then iterating based on feedback
+- I prefer pragmatic approaches over perfect solutions that never ship
+- I value clear communication and translating complex technical concepts for non-technical stakeholders
+- I'm deeply committed to building systems that are not just accurate, but also interpretable and trustworthy
+
+WHAT I ENJOY MOST
+- Working on problems where AI can directly impact business metrics
+- Mentoring junior engineers and sharing knowledge
+- Building end-to-end systems from problem definition to production deployment
+- Collaborating with cross-functional teams (product, business, engineering)
+
+LEARNING MINDSET
+- I'm constantly learning new technologies and methodologies
+- I contribute to open-source projects when possible
+- I stay updated with the latest developments in AI/ML through research papers and industry discussions
+
+OUTSIDE OF WORK
+- I'm interested in the ethical implications of AI and responsible AI practices
+- I enjoy reading about technology, business, and philosophy
+- I'm based in São Paulo, Brazil and love the tech community here
+
+UNIQUE STRENGTHS
+- Combination of deep technical AI knowledge with strong business acumen
+- Ability to communicate complex ML concepts to both technical and non-technical audiences
+- Proven track record of delivering production-grade systems that generate measurable business value
+- Experience working in regulated industries (insurance) where compliance and governance are critical
