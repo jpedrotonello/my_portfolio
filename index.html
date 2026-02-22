@@ -534,6 +534,8 @@
 <script>
   // ── CONFIG ─────────────────────────────────────────────────────────────────
   // IMPORTANT: After deploying your backend to Render, replace the URL below
+  // with your actual Render service URL. Example:
+  // const BACKEND_URL = "https://joao-portfolio-backend.onrender.com";
   const BACKEND_URL = "https://my-portfolio-2524.onrender.com";
 
    // Detect if running locally or on GitHub Pages and set the correct base path for images
@@ -548,30 +550,209 @@
   }
   console.log(`[Config] Environment: ${isLocalFile ? 'Local File' : (isGitHubPages ? 'GitHub Pages' : 'Other')}, BASE_PATH: "${BASE_PATH}"`);
 
-  // ── DATA (carregado de backend/data.json) ───────────────────────────────────
-  let DATA = null;
-
-  // você já tem isLocalFile, isGitHubPages e BASE_PATH definidos acima
-  // BASE_PATH é "" localmente e "/my_portfolio/" no GitHub Pages
-  const DATA_URL = isGitHubPages
-    ? `${BASE_PATH}backend/data.json`
-    : 'backend/data.json';
-
-  async function loadData() {
-    try {
-      console.log('[Config] Loading DATA from:', DATA_URL);
-      const res = await fetch(DATA_URL);
-
-      if (!res.ok) {
-        throw new Error(`HTTP ${res.status}`);
+  // ── DATA ────────────────────────────────────────────────────────────────────
+  const DATA = {
+  "personalInfo": {
+    "name": "João Pedro Tonello",
+    "title": "AI Engineer / Data Scientist",
+    "linkedin": "https://www.linkedin.com/in/joaopedrotonello/",
+    "location": "São Paulo, Brazil",
+    "photo": "3480-PedroTonello.jpg"
+  },
+  "about": {
+    "title": "About Me",
+    "introduction": "",
+    "highlights": [
+      "Specialized in building end-to-end AI/ML solutions: LLMs, NLP, predictive modeling, and decision support systems",
+      "Proficient in production ML operations: MLflow, Databricks, Azure AI Services, and cloud infrastructure",
+      "Proficient in designing Human-in-the-Loop workflows for high-stakes decision environments",
+      "Deep experience with data governance, RBAC, and compliance in regulated industries",
+      "Pragmatic approach to AI: shipping high-impact MVPs while maintaining technical rigor",
+      "Strong background in translating business problems into quantifiable ML objectives"
+    ],
+    "keyTechnologies": [
+      "LLMs & Generative AI",
+      "Python, SQL, PySpark",
+      "Machine Learning (XGBoost, scikit-learn)",
+      "Deep Learning (PyTorch, TensorFlow)",
+      "Natural Language Processing (NLP)",
+      "Azure AI (Foundry, Search, Services)",
+      "Databricks & Delta Lake",
+      "MLflow & Model Governance",
+      "Data Architecture & Lakehouse Design",
+      "Power BI & Data Visualization",
+      "Cloud Infrastructure"
+    ]
+  },
+  "portfolio": [
+    {
+      "title": "Genie Databricks: Talk to your data",
+      "executiveSummary": "Architected and deployed a Natural Language to SQL (NL2SQL) interface integrated with Microsoft Teams, empowering Partners and the Executive Board to query financial and operational data with strict governance and audit trails. Through rigorous production tuning and knowledge curation, the NL2SQL accuracy rate improved from ~40% to ~95%.",
+      "details": {
+        "contextAndProblem": "The Executive Board and approximately 90 Partners relied on a small Data/Controllership team to answer complex questions regarding billable hours, legal fees, invoicing, cost allocation, clients, and active matters. Retrieving these answers required manual dashboard navigation or ad-hoc SQL writing, resulting in turnaround times ranging from hours to days.",
+        "constraintsAndRisks": "The dataset contained highly sensitive information (including financial transactions and HR records). Therefore, the solution required strict Role-Based Access Control (RBAC), full auditability, and a \"human-in-the-loop\" review mechanism to mitigate the risk of incorrect responses or data leakage.",
+        "solutionAndArchitecture": "I centralized the critical tables within the Lakehouse architecture, enforcing governance via Unity Catalog. The solution involved enriching the data dictionary and business rules with natural language descriptions, defining strict table relationships and maintaining a \"few-shot\" example base (Question → SQL) to enhance model reliability, and developing a Microsoft Teams bot interface with two key controls: (1) displaying the generated SQL for transparency and (2) triggering a human review loop when confidence was low or upon user request.",
+        "implementation": "Hosted the webapp/bot on Microsoft Azure with seamless Teams integration. Access control was managed via Teams administration synced with Databricks data permissions, ensuring users could only query data authorized for their specific group. The human review workflow generated a ticket containing the context and the generated SQL for immediate audit and correction.",
+        "evaluation": "Performance was monitored through a continuous operational feedback loop. Every reviewed request was tagged as correct/incorrect, directly feeding back into the knowledge base (refining rules, examples, and context). The accuracy metric (defined as \"approved response without significant manual correction\") surged from ~40% in the first week to ~95% after the initial tuning cycles.",
+        "impact": "Substantially reduced time-to-answer for critical business queries. Increased Partner autonomy and trust in data, driven by the transparency of visible SQL and on-demand human review. Eliminated the bottleneck in the Data team, improving alignment on business rules and definitions across the firm.",
+        "keyLearnings": "Solidified best practices in Data Governance, production-grade NL2SQL system design, and corporate chatbot integration with security/audit mechanisms. Deepened understanding of internal business logic by translating tacit institutional knowledge into structured operational instructions."
+      },
+      "image": "genie.png"
+    },
+    {
+      "title": "Automated Data Extraction & Structuring for Fee Proposals",
+      "executiveSummary": "Developed an AI-driven pipeline to extract structured data from diverse fee proposal formats (PDF, PPTX, DOCX), replacing a manual, error-prone process. The solution reduced processing time by ~80%, saving approximately 960 hours of operational work annually and creating a reliable dataset that enabled downstream predictive analytics.",
+      "details": {
+        "contextAndProblem": "The Marketing team received hundreds of fee proposals in varied unstructured formats. Manually logging key details (pricing model, scope, client, fees, practice areas) into spreadsheets was time-consuming (15 mins/doc) and inconsistent, leading to low data coverage. Valuable commercial data was locked in documents, inaccessible for analysis.",
+        "constraintsAndRisks": "The primary risk was Data Quality rather than just privacy. Incorrect extraction or ambiguous fields could introduce \"silent errors,\" contaminating downstream reporting and decision-making. The system also had to handle Data Drift, as document layouts and language styles varied significantly over time. A robust \"Human-in-the-Loop\" (HITL) review process was mandatory.",
+        "solutionAndArchitecture": "I implemented an extraction pipeline on Microsoft Azure using Azure AI Foundry. The architecture consisted of two distinct layers: (1) Extraction & Interpretation: An LLM with specialized prompt engineering ingested raw text to identify and normalize fields based on specific business rules. (2) Schema Enforcement & Validation: The LLM output was forced into a strict schema with controlled vocabularies (dropdowns) and standardized formats to ensure consistency across the dataset.",
+        "implementationAndOperation": "The tool automatically populated a database row for each processed document, flagging AI-inferred values for rapid human validation. We established an iterative loop where recurring extraction errors drove updates to the prompt engineering and normalization logic.",
+        "evaluation": "Success was measured by the Correction Rate (percentage of fields requiring human edit) and Time-to-Review. User corrections served as immediate feedback for the model, creating a continuous improvement cycle. We achieved 100% capture of incoming proposals without increasing headcount.",
+        "impact": "Impact: Operational scalability by increasing processing volume to approximately 400 proposals per month (near 100% coverage). Efficiency gains by reducing average handling time from 15 minutes (manual entry) to 3 minutes (review only), saving about 12 minutes per document. ROI of roughly 80 hours saved per month, totaling around 960 hours (approximately 120 workdays) per year, allowing the team to focus on higher-value strategic tasks. Strategic value by creating the foundational structured dataset required to build the Conversion Propensity Model (described in a separate case study).",
+        "keyLearnings": "Mastered the architecture of LLM-based structured extraction in production, including schema definition, data normalization, and the design of effective human-in-the-loop workflows for quality control. Gained substantial domain knowledge related to commercial pricing structures, proposal formats, and the operational dynamics behind these processes."
+      },
+      "image": "knowledge_mining.png"
+    },
+    {
+      "title": "Proposal Conversion Propensity Model & Explainable AI",
+      "executiveSummary": "Built a supervised classification model to estimate the probability of a client accepting a fee proposal. By combining structured deal data with unstructured text embeddings from scope descriptions, the model achieved an AUC of approximately 0.82. Among the Partners who adopted the tool, the observed conversion rate increased from 35% to 48%, supported by an interpretation layer designed to guide commercial negotiation without dictating decisions.",
+      "details": {
+        "contextAndProblem": "With the newly structured dataset of fee proposals, the Commercial team needed a data-driven way to estimate the likelihood of winning a deal during the drafting phase and to understand which factors, pricing model, scope phrasing, team composition, were most likely to influence the outcome.",
+        "constraintsAndRisks": "The main risk was misinterpretation rather than statistical error. Because the model captures correlations instead of causality, users could mistakenly treat associative patterns as causal drivers of acceptance or rejection. To avoid this, the tool was positioned strictly as decision support, with users trained to interpret predictions as data-backed hypotheses rather than prescriptions. On the technical side, the system required strict control of data leakage to ensure no post-decision information contaminated the training set, and continuous monitoring for concept drift as proposal formats and writing styles evolved.",
+        "solutionAndArchitecture": "I implemented a Gradient Boosting (XGBoost) classifier chosen for its strong performance on tabular data and its stability in business settings. The feature set combined structured variables, such as pricing model, client tier, and practice area, with text embeddings extracted from the proposal’s scope of work, which substantially improved predictive accuracy. An explainability layer was added using an interpretation method similar to SHAP values, allowing users to see which features pushed the probability up or down for each proposal and providing clear, actionable feedback during drafting.",
+        "implementation": "The end-to-end solution was implemented in Databricks using Python. All experiments were tracked in MLflow, logging metrics, hyperparameters, and artifacts to ensure full reproducibility and transparent model lineage. The final model was registered and deployed as a REST API endpoint, enabling smooth integration with internal systems. New proposals were continuously incorporated into the dataset, supporting versioned retraining cycles and maintaining model freshness over time.",
+        "evaluation": "Beyond traditional metrics such as an AUC of roughly 0.82, the evaluation emphasized generalization and real-world usefulness. Error patterns were analyzed across deal segments, such as fixed-fee versus hourly-rate proposals and across different client industries, to ensure the model did not systematically underperform on specific categories. The explainability layer was assessed qualitatively through partner feedback, focusing on whether the insights genuinely helped refine negotiation strategy rather than simply adding technical decoration.",
+        "impact": "The tool became an important instrument for Partners during the proposal drafting process. Among the executives who actively adopted it, the observed proposal acceptance rate increased from 35% to 48%. This improvement, while operationally meaningful, remains observational and cannot be taken as strict causal proof, selection effects and behavioral differences among adopters may contribute to the uplift. Even with this caveat, the system materially enhanced prioritization, pricing calibration, and the firm’s overall understanding of conversion patterns, strengthening the commercial workflow in a measurable way.",
+        "keyLearnings": "Consolidated the full lifecycle of a business-facing ML product, from strict leakage control during dataset construction to delivering a stable and consumable API. The most important lesson was learning to design an interpretation layer that provides practical, decision-oriented insights without overstating correlation as causality, a critical skill when deploying AI in high-stakes environments where misinterpretation can lead to costly decisions."
       }
-
-      DATA = await res.json();
-      render();  // só aqui, depois de DATA carregado
-    } catch (err) {
-      console.error('Erro ao carregar DATA:', err);
+    },
+    {
+      "title": "Realization Rate Prediction for Profitability Management",
+      "executiveSummary": "Developed a regression model to predict the realization rate (billed revenue divided by the standard value of hours) before proposals were sent to clients. By using realization as a proxy for profitability risk, the tool allowed Partners to quantify the trade-off between winning a deal and maintaining healthy margins, bringing transparency to a decision process that was previously driven by intuition rather than measurable risk.",
+      "details": {
+        "contextAndProblem": "In professional services, every fee proposal requires balancing two competing goals: offering a price attractive enough to win the deal while preserving profitability. The key metric in this trade-off is the realization rate, which measures how much of the standard value of hours is effectively captured as billed revenue. The objective was to generate a quantitative forecast of this metric during proposal drafting, allowing Partners to anticipate whether a specific engagement was likely to maintain healthy margins given its estimated effort and pricing structure.",
+        "constraintsAndRisks": "The biggest constraint was avoiding data leakage, because realization is determined by events that occur after the proposal is drafted, such as execution efficiency, scope changes, or renegotiations. The dataset had to be carefully filtered to include only information truly available at drafting time. There was also an interpretation risk: a low predicted realization is an estimate meant to support negotiation strategy, not a prescriptive instruction about whether to close a deal. As with the propensity model, any variable associated with low realization could simply be a marker for underlying complexity rather than a causal driver of inefficiency, requiring clear communication to prevent misguided interventions.",
+        "solutionAndArchitecture": "I implemented a regression model using XGBoost, selected for its ability to capture non-linear interactions between pricing structures, client characteristics, and proposal attributes. The feature engineering approach followed the same hybrid architecture used in the Propensity Model, combining structured proposal data, such as pricing details, estimated values, and practice area, with NLP-derived signals extracted from the scope of work text, which added meaningful context and improved predictive performance.",
+        "implementation": "The full solution was developed in Databricks using Python. MLflow handled experiment tracking, model versioning, and artifact management, ensuring clean lineage and reproducibility. The final model was deployed as a REST API endpoint so that predictions could be consumed directly within the proposal drafting workflow, making the model an operational tool rather than a standalone analytical exercise in a notebook.",
+        "evaluation": "Evaluation focused on both generalization and temporal robustness. In addition to standard regression metrics such as RMSE and MAE, I examined performance across different proposal segments such as fixed-fee versus hourly arrangements and high-value contracts to ensure the model did not systematically underperform in specific clusters. I also identified areas of intrinsically higher uncertainty to set appropriate confidence expectations for users and to highlight scenarios where predictions should be interpreted more cautiously.",
+        "impact": "The solution made an implicit trade-off explicit by presenting two complementary predictions at the moment of drafting: the probability of winning the deal and the expected realization. With both signals available, Partners could make rational and transparent decisions, such as adjusting pricing strategies, renegotiating the fee structure when a scope appeared risky, or establishing commercial guardrails for contracts likely to generate margin pressure.",
+        "keyLearnings": "Solidified the ability to build operational ML products under strict leakage control, ensuring that all predictive signals reflect only information available at decision time. Strengthened the skill of defining target variables in complex temporal processes, where the outcome depends on events that unfold long after the initial prediction. Gained further experience delivering models as governed, reproducible endpoints within a corporate data environment, turning analytical workflows into reliable production-grade systems."
+      }
+    },
+    {
+      "title": "Reputation Management – AI-Driven Moderation Appeals",
+      "executiveSummary": "Engineered an intelligent system to improve the success rate of moderation appeals submitted to a major third-party consumer reputation platform, comparable to Trustpilot or Yelp. The solution progressed through four maturity stages, beginning with statistical and linguistic pattern analysis and culminating in a fine-tuned LLM integrated directly into Microsoft Teams. The final version delivered an observed uplift of roughly 50 percent in successful appeal approvals, significantly enhancing the firm’s reputation management workflow.",
+      "details": {
+        "contextAndProblem": "The firm faced reputational exposure from unfair or invalid consumer complaints posted on an external review platform. Analysts were responsible for drafting moderation appeals to contest these cases, but the platform’s automated acceptance criteria were opaque and highly sensitive to phrasing. Because analysts relied on intuition rather than identifiable linguistic patterns, appeal quality varied significantly, rejection rates were high, and the overall process lacked consistency and predictability.",
+        "constraintsAndRisks": "The system required clear ethical boundaries: the objective was to standardize and clarify appeal language, not to exploit accidental correlations or loopholes in the platform’s automated checks. Any pattern identified needed to be linguistically and substantively justified. On the technical side, the model had to avoid overfitting to historical data because the platform’s acceptance criteria evolve over time. Strong governance was also essential, as appeals frequently include sensitive policy information and must comply with privacy requirements.",
+        "solutionAndArchitecture": "The solution was built incrementally and validated at each stage, beginning with linguistic mapping of terms correlated with success or failure to create a manual guide that produced roughly a 30% initial uplift, then introducing a predictive classifier where analysts could paste a draft and receive a success probability score with highlighted reasoning, followed by using clustering methods to identify structural elements common in successful appeals and turning these into an evidence-based playbook, and finally implementing a fine-tuned LLM in Azure AI Foundry that generated standardized, high-quality drafts from raw claim facts for analysts to review.",
+        "implementation": "Implementation was fully operationalized inside Microsoft Teams to minimize friction, with the backend orchestrated through Azure Logic Apps and Azure Functions, creating a seamless human-in-the-loop workflow in which the analyst remained the final decision-maker before submission.",
+        "evaluation": "Evaluation tracked two primary metrics: the appeal acceptance rate and the aggregate reputation scores, with periodic retraining applied to detect concept drift as the external platform’s moderation logic evolved.",
+        "impact": "The final fine-tuned LLM version delivered an observed ~50% increase in the volume and rate of accepted appeals compared to the baseline, significantly reduced analyst cognitive load and drafting time, and contributed to a sustained improvement in the company’s public reputation score, while acknowledging that this outcome reflects multiple concurrent customer-experience initiatives rather than a single causal factor.",
+        "keyLearnings": "Consolidated a full-cycle applied AI engineering approach, starting with statistical exploration, progressing through predictive modeling, and culminating in fine-tuned generative AI for text generation. Strengthened the ability to integrate LLMs into corporate operational workflows in Microsoft Teams with strict governance, automation, and reliability."
+      }
+    },
+    {
+      "title": "Claims Subrogation & Economic Prioritization with ML",
+      "executiveSummary": "Architected a machine learning system to identify auto insurance claims eligible for Subrogation (recovery of costs from at-fault third parties). Adopting a pragmatic \"revenue-first\" strategy, I launched a text-based MVP to immediately stop revenue leakage, later evolving it into a multimodal system with an Economic Prioritization Layer based on calibrated probabilities.",
+      "details": {
+        "contextAndProblem": "Subrogation triage was a manual, bottlenecked process. Analysts spent hours reading free-text claim narratives to identify potential third-party liability such as rear-end collisions. This led to two critical failures: high operational cost due to expensive human time spent on clear \"no-fault\" cases, and revenue leakage because eligible cases were missed due to human error or fatigue. In high-volume Auto Insurance, missing even a small fraction of recoverable claims compounds to millions in annual losses.",
+        "constraintsAndRisks": "The economic trade-off was central: false positives create congestion and cost for the legal team, while false negatives represent direct financial loss. The earliest predictive signal came from unstructured text in the First Notice of Loss, which was often short, subjective, noisy, and written under stress. The model needed to function strictly as a triage filter rather than a judge, since final liability determination legally requires human review.",
+        "solutionAndArchitecture": "I executed a phased delivery to maximize ROI. Phase 1, the stop-the-bleeding MVP, used a text-classification model based only on the claim description. Even with limited input, it provided an immediate operational safety net by flagging high-probability cases that manual triage was missing. Phase 2 evolved into a multimodal XGBoost model combining structured data such as policy limits and vehicle type with NLP features extracted from the narrative. Phase 3 introduced the economic decision engine, the core differentiator, where I applied probability calibration such as isotonic regression to convert raw model scores into true probabilities and then computed the expected value of recovery against external legal costs, recommending pursuit only when the economics were favorable.",
+        "implementation": "",
+        "evaluation": "Success was defined by Financial Impact, not just F1-Score. We monitored the \"Recovery Rate\" of the flagged cohort and the \"Conversion Rate\" of the legal team (ensuring we weren't flooding them with low-value cases). Calibration plots were critical to validate the economic logic.",
+        "impact": "The MVP alone recovered ~2% of eligible claims that had previously been slipping through manual triage, representing millions in annualized revenue recovery at scale. It also drastically reduced the time analysts spent on dead-end claims and enabled them to focus on complex negotiation. It shifted the department from process-based triage to value-based prioritization.",
+        "keyLearnings": "Solidified a Pragmatic AI philosophy: shipping a high-impact MVP on day one is better than waiting months for a perfect model. Deepened technical expertise in Probability Calibration as a mandatory step for connecting ML outputs to financial P&L decisions (Expected Value calculation)."
+      }
+    },
+    {
+      "title": "Retail Expiry Risk Modeling via Monte Carlo Simulation",
+      "executiveSummary": "Developed a stochastic model to estimate the probability of on-shelf stock expiration in retail environments without item-level batch tracking. By simulating inventory flows using Monte Carlo methods on daily sales and stock series, the system inferred the probable age of inventory. The feature became a major commercial driver, with ~70% of new enterprise clients citing the expiry risk model as a key factor for signing the contract.",
+      "details": {
+        "contextAndProblem": "Expiration date checking in retail was labor-intensive and inefficient, essentially a needle-in-a-haystack search. Field merchandisers spent hours checking products that were still fresh while missing the items that were actually expired. The available data, daily sales and stock counts, lacked batch-level granularity such as manufacturing or expiry dates, meaning we knew how much inventory existed but not how old it was. The goal was to direct the workforce toward high-risk SKUs by answering the question: given the history of arrivals and sales, what is the probability that a unit currently on the shelf has been there longer than its shelf-life?",
+        "constraintsAndRisks": "Structural uncertainty was the central constraint: without batch tracking, we cannot know exactly which unit was sold, and assuming perfect FIFO (First-In, First-Out) is unrealistic in physical retail because shoppers pick from the back and shelves get messy. The solution also had to scale to millions of SKU-Store combinations daily, and running heavy simulations for every item represented a significant computational cost risk.",
+        "solutionAndArchitecture": "I built a simulation engine from first principles to model the flow of goods. It began by inferring batch arrivals through the detection of positive inventory deltas adjusted for sales. Daily sales were then modeled using probabilistic withdrawal rather than deterministic FIFO, introducing an entropy parameter to reflect real-world shelf behavior where old and new stock mix unpredictably. Finally, a Monte Carlo engine ran approximately 1,000 simulations per SKU–store pair to produce a distribution of remaining stock age, and the resulting score represented the fraction of simulations in which expired stock was still present.",
+        "implementation": "To make the system viable for production, I implemented deterministic pruning to skip simulations in trivial cases such as when total stock was lower than cumulative sales over the last set of days, which makes the expiration risk mathematically zero. I used adaptive sampling to adjust the number of Monte Carlo iterations, running more simulations when the estimated probability was near the decision threshold and fewer when the risk was clearly very high or very low. I focused on ranking rather than absolute probability precision, since the operational requirement was to identify and check the top 50 highest-risk items.",
+        "evaluation": "",
+        "impact": "Operational efficiency increased substantially by converting a random audit process into a risk-targeted workflow, allowing merchandisers to focus exclusively on high-probability items and dramatically increasing the number of expired goods detected per hour worked. It also created strong market differentiation by solving a long-standing blind spot in the retail industry, as the ability to predict expiration risk without batch-level data became a unique selling point that directly closed new enterprise deals.",
+        "keyLearnings": "At the time, I addressed this analytical challenge with a robust and pragmatic Monte Carlo simulation. The modern approach would be to replace the simulation (approximate and computationally heavy) with a closed-form analytical solution. By modeling inventory flow as a Markov Chain with Multivariate Hypergeometric distributions, it becomes possible to compute the exact expiration probability in a single pass with O(1) complexity instead of relying on iterative simulation with O(N), delivering orders-of-magnitude improvements in scalability."
+      }
     }
-  }
+  ],
+  "achievements": [
+    {
+      "title": "NL2SQL Executive Analytics Platform",
+      "description": "Architected and deployed a production-grade NL2SQL system integrated with Microsoft Teams using Genie Databricks API. The initial production version launched with ~40% accuracy, which increased to ~95% through iterative tuning, human-in-the-loop feedback, and continuous knowledge curation."
+    },
+    {
+      "title": "LLM-Based Document Information Extraction",
+      "description": "Developed a scalable LLM information extraction pipeline for documents (PDF, DOCX, PPTX), reducing manual processing time by ~80%, saving ~900 hours of work annually, and enabling 100% structured data coverage for downstream analytics."
+    },
+    {
+      "title": "AI-Driven Moderation Appeals for Reputation Management",
+      "description": "Engineered a multi-stage system culminating in a fine-tuned LLM on Azure AI Foundry, integrated into Microsoft Teams, increasing successful moderation appeals on a third-party reputation platform by ~50% and standardizing high-quality responses."
+    },
+    {
+      "title": "Subrogation Prioritization System for Auto Insurance Claims",
+      "description": "Designed and deployed a calibrated ML pipeline to identify and economically prioritize subrogation opportunities, recovering ~2% of eligible claims that were previously missed by manual triage and generating millions in annualized revenue."
+    }
+  ],
+  "education": [
+    {
+      "degree": "MBA in Data Science & Analytics",
+      "institution": "University of São Paulo",
+      "year": "2022"
+    },
+    {
+      "degree": "B.Eng. in Instrumentation, Automation & Robotics Engineering",
+      "institution": "Federal University of ABC",
+      "year": "2020"
+    },
+    {
+      "degree": "B.Sc. in Science & Technology",
+      "institution": "Federal University of ABC",
+      "year": "2018"
+    }
+  ],
+  "resume": [
+    {
+      "title": "AI Engineer / Specialist Data Scientist",
+      "company": "Demarest",
+      "period": "2025 - Present",
+      "summary": "End-to-end planning and delivery of AI and data solutions: requirements definition, infrastructure sizing, statistical models, AI and LLM applications, CI/CD, testing, automation, standards, security, governance, cross-functional collaboration, and technical documentation.",
+      "details": [
+        "Led a successful NL2SQL project (natural language access to governed data), adapting to business rules and context and positively impacting the speed at which stakeholders obtain information.",
+        "Designed and deployed an LLM-based pipeline to extract structured data from documents, automating data capture and saving about 70 hours per month of manual form-filling for the Marketing team that was previously done entirely by hand.",
+        "Built a Judicial Recovery analysis model to estimate expected financial recovery and prioritize fee proposals with the highest economic return.",
+        "Technologies: LLMs, Python, PySpark, Azure AI (Search and Services), Databricks, Genie Databricks API, NLP, machine learning, data analysis, predictive modeling."
+      ]
+    },
+    {
+      "title": "Senior Data Scientist",
+      "company": "Zurich Insurance Company Ltd",
+      "period": "2022 - 2025",
+      "summary": "End-to-end machine learning modeling for auto insurance, including periodic re-evaluation, algorithm selection, batch scoring, homologation, deployment in partnership with technology teams, continuous monitoring, observability, and technical documentation.",
+      "details": [
+        "Reclame Aqui (Brazilian consumer complaint platform similar to Trustpilot): built an API, Logic App, and chatbot integrated with Microsoft Teams for moderation requests; the model increased the approval rate of moderation appeals by about 50%.",
+        "Subrogation prediction: modeled auto insurance claims with highly imbalanced data to prevent significant losses, recovering about 2% of eligible subrogation cases that would otherwise have been lost due to human error.",
+        "Risk segmentation: developed models for classification and segmentation of policyholders, generating high-impact insights for commercial and marketing teams.",
+        "Tools and technologies: Python, Databricks, Azure (Foundry, Function App, Logic App, AI Services), Power BI, NLP, predictive modeling."
+      ]
+    },
+    {
+      "title": "Data Scientist",
+      "company": "Involves",
+      "period": "Jan 2022 - Aug 2022",
+      "summary": "Developed predictive solutions and analyses aimed at operational optimization in retail, with focus on statistical modeling, computational performance, and data visualization.",
+      "details": [
+        "Product expiry prediction: built custom statistical models without off-the-shelf libraries and ran parallel probabilistic simulations for thousands of SKUs; the solution boosted marketing performance and helped double the customer base in 2 months.",
+        "Point-of-sale out-of-stock detection: replaced an unsupervised approach with a supervised XGBoost model, increasing accuracy from about 30% to 70% by incorporating turnover and sales history.",
+        "Operational reporting: created Power BI dashboards with accuracy, engagement, and financial impact metrics and automated data collection, expanding operational visibility for clients and internal teams.",
+        "Technologies: Python, SQL, predictive modeling, Power BI, computational simulations, statistical analysis, AWS."
+      ]
+    }
+  ]
+};
 
   // ── THEME ────────────────────────────────────────────────────────────────────
   let isDark = localStorage.getItem('theme') === 'dark';
