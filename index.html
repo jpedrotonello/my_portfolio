@@ -636,7 +636,7 @@
       const d = item.details;
       // Full image at top of expanded body (if image exists)
       const imageBodyHTML = item.image
-        ? `<div style="margin-bottom:1rem;border-radius:8px;overflow:hidden;border:1px solid var(--border)"><img src="${isLocalFile ? '' : BASE_PATH}${item.image}" alt="${item.title}" style="width:100%;max-height:280px;object-fit:cover;display:block" /></div>`
+        ? `<div style="margin-bottom:1rem;border-radius:8px;overflow:hidden;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;background-color:var(--muted-bg)"><img src="${isLocalFile ? '' : BASE_PATH}${item.image}" alt="${item.title}" style="max-width:100%;max-height:280px;object-fit:contain;display:block" /></div>`
         : '';
       const bodyHTML = imageBodyHTML + [
         detailSection('Context & Problem', d.contextAndProblem),
@@ -650,7 +650,7 @@
       ].join('');
       // Thumbnail shown when collapsed (if image exists)
       const thumbHTML = item.image
-        ? `<div style="flex-shrink:0"><img src="${isLocalFile ? '' : BASE_PATH}${item.image}" alt="${item.title}" style="width:64px;height:64px;border-radius:8px;object-fit:cover;border:1px solid var(--border)" /></div>`
+        ? `<div style="flex-shrink:0;display:flex;align-items:center;justify-content:center;width:64px;height:64px;border-radius:8px;border:1px solid var(--border);background-color:var(--muted-bg)"><img src="${isLocalFile ? '' : BASE_PATH}${item.image}" alt="${item.title}" style="max-width:100%;max-height:100%;object-fit:contain" /></div>`
         : '';
       const triggerHTML = `${thumbHTML}<div class="flex-1"><div class="dropdown-title">${item.title}</div><div class="dropdown-summary">${item.executiveSummary}</div></div>`;
       const card = makeDropdown(triggerHTML, bodyHTML);
