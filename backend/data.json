@@ -43,7 +43,7 @@
         "impact": "Substantially reduced time-to-answer for critical business queries. Increased Partner autonomy and trust in data, driven by the transparency of visible SQL and on-demand human review. Eliminated the bottleneck in the Data team, improving alignment on business rules and definitions across the firm.",
         "keyLearnings": "Solidified best practices in Data Governance, production-grade NL2SQL system design, and corporate chatbot integration with security/audit mechanisms. Deepened understanding of internal business logic by translating tacit institutional knowledge into structured operational instructions."
       },
-      "image": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663028731969/SCpaLuqNofvKDhbu.png"
+      "image": "genie.png"
     },
     {
       "title": "Automated Data Extraction & Structuring for Fee Proposals",
@@ -57,7 +57,7 @@
         "impact": "Operational Scalability: Increased processing volume to ~400 proposals/month (near 100% coverage). Efficiency Gains: Reduced average handling time from 15 minutes (manual entry) to 3 minutes (review only), a saving of ~12 minutes per document. ROI: Saved ~80 hours/month, totaling ~960 hours (approx. 120 workdays) annually, allowing the team to focus on high-value strategic tasks. Strategic Value: Created the foundational structured dataset required to build the Conversion Propensity Model.",
         "keyLearnings": "Mastered the architecture of LLM-based Structured Extraction in production. Deepened expertise in schema definition, data normalization, and designing effective Human-in-the-Loop workflows for quality control. Gained significant domain knowledge regarding commercial pricing structures and proposal dynamics."
       },
-      "image": "https://files.manuscdn.com/user_upload_by_module/session_file/310419663028731969/MIguwKzuKZrbrXwZ.png"
+      "image": "knowledge_mining.png"
     },
     {
       "title": "Proposal Conversion Propensity Model & Explainable AI",
