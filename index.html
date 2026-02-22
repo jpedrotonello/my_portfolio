@@ -594,28 +594,6 @@
     return div;
   }
 
-  // Dropdown with thumbnail toggle: hides thumb when expanded, shows when collapsed
-  function makeDropdownWithThumb(triggerHTML, bodyHTML, thumbId) {
-    const div = document.createElement('div');
-    div.className = 'card dropdown-card';
-    const btn = document.createElement('button');
-    btn.className = 'dropdown-trigger';
-    btn.innerHTML = triggerHTML + `<svg class="dropdown-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>`;
-    const body = document.createElement('div');
-    body.className = 'dropdown-body';
-    body.innerHTML = bodyHTML;
-    btn.onclick = () => {
-      const open = body.classList.toggle('open');
-      btn.querySelector('.dropdown-chevron').classList.toggle('open', open);
-      if (thumbId) {
-        const thumbEl = btn.querySelector(`#${thumbId}`);
-        if (thumbEl) thumbEl.style.display = open ? 'none' : 'block';
-      }
-    };
-    div.appendChild(btn); div.appendChild(body);
-    return div;
-  }
-
   function detailSection(label, text) {
     if (!text) return '';
     return `<div class="detail-section"><div class="detail-label">${label}</div><div class="detail-text">${text}</div></div>`;
@@ -648,12 +626,20 @@
         detailSection('Key Learnings', d.keyLearnings),
       ].join('');
       // Thumbnail shown when collapsed (if image exists)
-      const thumbId = item.image ? `thumb-${Math.random().toString(36).slice(2)}` : null;
       const thumbHTML = item.image
-        ? `<div id="${thumbId}" style="flex-shrink:0"><img src="${item.image}" alt="${item.title}" style="width:64px;height:64px;border-radius:8px;object-fit:cover;border:1px solid var(--border)" /></div>`
+        ? `<div style="flex-shrink:0"><img src="${item.image}" alt="${item.title}" style="width:64px;height:64px;border-radius:8px;object-fit:cover;border:1px solid var(--border)" /></div>`
         : '';
       const triggerHTML = `${thumbHTML}<div class="flex-1"><div class="dropdown-title">${item.title}</div><div class="dropdown-summary">${item.executiveSummary}</div></div>`;
-      const card = makeDropdownWithThumb(triggerHTML, bodyHTML, thumbId);
+      const card = makeDropdown(triggerHTML, bodyHTML);
+      // Hide thumbnail when expanded, show when collapsed
+      const btn = card.querySelector('.dropdown-trigger');
+      const thumb = btn ? btn.querySelector('img') : null;
+      if (thumb) {
+        card.addEventListener('click', () => {
+          const isOpen = card.querySelector('.dropdown-body.open');
+          if (thumb) thumb.style.display = isOpen ? 'none' : 'block';
+        });
+      }
       pc.appendChild(card);
     });
 
