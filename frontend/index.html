@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>João Pedro Tonello - AI Engineer / Data Scientist</title>
+  <meta name="description" content="Portfolio of João Pedro Tonello — AI Engineer and Data Scientist based in São Paulo, Brazil." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <!-- marked.js for Markdown rendering in chat -->
+  <script src="https://cdn.jsdelivr.net/npm/marked@9/marked.min.js"></script>
+  <style>
+    /* ── Reset & Base ──────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      line-height: 1.6;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    /* ── CSS Variables — Light (default) ───────────────────────────── */
+    :root {
+      --bg:         #f5f6fa;
+      --bg-card:    #ffffff;
+      --fg:         #1a1d2e;
+      --fg-muted:   #6b7280;
+      --border:     #e5e7eb;
+      --primary:    #2563eb;
+      --primary-fg: #ffffff;
+      --muted-bg:   #f3f4f6;
+      --badge-bg:   #e8edf8;
+      --badge-fg:   #1e40af;
+      --header-bg:  rgba(245,246,250,0.95);
+      --shadow:     0 1px 3px rgba(0,0,0,0.08);
+      --shadow-lg:  0 8px 30px rgba(0,0,0,0.12);
+    }
+
+    /* ── CSS Variables — Dark ───────────────────────────────────────── */
+    body.dark {
+      --bg:         #0f1117;
+      --bg-card:    #1a1d2e;
+      --fg:         #e2e8f0;
+      --fg-muted:   #94a3b8;
+      --border:     rgba(255,255,255,0.1);
+      --primary:    #3b82f6;
+      --primary-fg: #ffffff;
+      --muted-bg:   #1e2235;
+      --badge-bg:   #1e3a5f;
+      --badge-fg:   #93c5fd;
+      --header-bg:  rgba(15,17,23,0.95);
+      --shadow:     0 1px 3px rgba(0,0,0,0.3);
+      --shadow-lg:  0 8px 30px rgba(0,0,0,0.4);
+    }
+
+    body { background: var(--bg); color: var(--fg); }
+
+    /* ── Layout ─────────────────────────────────────────────────────── */
+    .container { max-width: 860px; margin: 0 auto; padding: 0 1.25rem; }
+
+    /* ── Header ─────────────────────────────────────────────────────── */
+    header {
+      position: sticky; top: 0; z-index: 40;
+      background: var(--header-bg);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+    .header-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 60px; gap: 1rem;
+    }
+    .header-profile { display: flex; align-items: center; gap: 0.75rem; min-width: 0; }
+    .header-avatar {
+      width: 38px; height: 38px; border-radius: 50%;
+      overflow: hidden; border: 2px solid var(--primary);
+      flex-shrink: 0;
+    }
+    .header-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .header-name { font-weight: 600; font-size: 0.875rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .header-title { font-size: 0.75rem; color: var(--fg-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    @media (max-width: 500px) { .header-text { display: none; } }
+
+    .header-nav { display: flex; align-items: center; gap: 0.375rem; flex-shrink: 0; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.375rem;
+      padding: 0.375rem 0.875rem; border-radius: 8px;
+      font-size: 0.8125rem; font-weight: 500; cursor: pointer;
+      border: 1px solid transparent; transition: all 0.15s; text-decoration: none;
+      background: none; color: var(--fg);
+    }
+    .btn:hover { background: var(--muted-bg); }
+    .btn.active { background: var(--primary); color: var(--primary-fg); border-color: var(--primary); }
+    .btn-outline {
+      border-color: color-mix(in srgb, var(--primary) 40%, transparent);
+      color: var(--primary);
+    }
+    .btn-outline:hover { background: color-mix(in srgb, var(--primary) 10%, transparent); }
+    .btn-ghost { color: var(--fg-muted); }
+    .btn-ghost:hover { color: var(--fg); background: var(--muted-bg); }
+    @media (max-width: 700px) { .btn-ask-header { display: none !important; } }
+
+    /* ── Main ───────────────────────────────────────────────────────── */
+    main { padding: 2rem 0 3rem; }
+
+    /* ── Hero ───────────────────────────────────────────────────────── */
+    .hero {
+      display: flex; align-items: center; gap: 1.5rem;
+      padding-bottom: 1.75rem; margin-bottom: 1.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .hero-avatar {
+      width: 88px; height: 88px; border-radius: 16px;
+      overflow: hidden; border: 2px solid color-mix(in srgb, var(--primary) 30%, transparent);
+      flex-shrink: 0;
+    }
+    .hero-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .hero h1 { font-size: 1.75rem; font-weight: 700; margin-bottom: 0.25rem; }
+    .hero-title { font-size: 1rem; color: var(--primary); font-weight: 500; margin-bottom: 0.625rem; }
+    .hero-meta { display: flex; flex-wrap: wrap; gap: 0.875rem; font-size: 0.8125rem; color: var(--fg-muted); }
+    .hero-meta a { color: var(--primary); text-decoration: none; display: flex; align-items: center; gap: 0.3rem; }
+    .hero-meta a:hover { text-decoration: underline; }
+    @media (max-width: 500px) {
+      .hero { flex-direction: column; align-items: flex-start; }
+      .hero h1 { font-size: 1.4rem; }
+    }
+
+    /* ── Card ───────────────────────────────────────────────────────── */
+    .card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 12px; overflow: hidden;
+      transition: border-color 0.15s; box-shadow: var(--shadow);
+    }
+    .card:hover { border-color: color-mix(in srgb, var(--primary) 40%, transparent); }
+
+    /* ── Dropdown Card ──────────────────────────────────────────────── */
+    .dropdown-card { margin-bottom: 0.625rem; }
+    .dropdown-trigger {
+      width: 100%; text-align: left; background: none; border: none; cursor: pointer;
+      padding: 1.125rem 1.25rem; display: flex; align-items: flex-start;
+      justify-content: space-between; gap: 1rem; color: var(--fg);
+    }
+    .dropdown-trigger:hover .dropdown-title { color: var(--primary); }
+    .dropdown-title { font-weight: 600; font-size: 0.9375rem; margin-bottom: 0.375rem; transition: color 0.15s; }
+    .dropdown-summary { font-size: 0.8125rem; color: var(--fg-muted); line-height: 1.6; }
+    .dropdown-chevron { flex-shrink: 0; margin-top: 2px; color: var(--fg-muted); transition: transform 0.2s; }
+    .dropdown-chevron.open { transform: rotate(180deg); }
+    .dropdown-body {
+      padding: 1rem 1.25rem 1.25rem;
+      border-top: 1px solid var(--border);
+      display: none;
+    }
+    .dropdown-body.open { display: block; }
+    .detail-section { margin-bottom: 1rem; }
+    .detail-section:last-child { margin-bottom: 0; }
+    .detail-label {
+      font-size: 0.6875rem; font-weight: 600;
+      letter-spacing: 0.04em; color: var(--primary); margin-bottom: 0.375rem;
+    }
+    .detail-text { font-size: 0.8125rem; color: var(--fg-muted); line-height: 1.65; }
+
+    /* ── Section ────────────────────────────────────────────────────── */
+    .section { margin-bottom: 2rem; }
+    .section-title { font-size: 1.0625rem; font-weight: 600; margin-bottom: 1rem; }
+
+    /* ── About Card ─────────────────────────────────────────────────── */
+    .about-card { padding: 1.25rem; margin-bottom: 1.75rem; }
+    .about-card p { font-size: 0.875rem; color: var(--fg-muted); line-height: 1.7; margin-bottom: 1rem; }
+    .about-bullets { list-style: none; }
+    .about-bullets li {
+      display: flex; gap: 0.5rem; font-size: 0.8125rem;
+      color: var(--fg-muted); margin-bottom: 0.375rem; line-height: 1.6;
+    }
+    .about-bullets li::before { content: "▸"; color: var(--primary); flex-shrink: 0; margin-top: 1px; }
+
+    /* ── Badges ─────────────────────────────────────────────────────── */
+    .badges { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.875rem; }
+    .badge {
+      background: var(--badge-bg); color: var(--badge-fg);
+      padding: 0.25rem 0.625rem; border-radius: 6px;
+      font-size: 0.75rem; font-weight: 500;
+    }
+
+    /* ── Resume Card ────────────────────────────────────────────────── */
+    .resume-company { font-size: 0.875rem; font-weight: 500; color: var(--primary); }
+    .resume-period {
+      display: inline-block; font-size: 0.75rem; color: var(--fg-muted);
+      background: var(--muted-bg); padding: 0.125rem 0.5rem;
+      border-radius: 20px; margin-left: 0.5rem;
+    }
+    .resume-details { list-style: none; }
+    .resume-details li {
+      display: flex; gap: 0.5rem; font-size: 0.8125rem;
+      color: var(--fg-muted); margin-bottom: 0.375rem; line-height: 1.6;
+    }
+    .resume-details li::before { content: "▸"; color: var(--primary); flex-shrink: 0; margin-top: 1px; }
+
+    /* ── Achievement Card ───────────────────────────────────────────── */
+    .achievement-star { color: var(--primary); font-size: 0.75rem; margin-right: 0.375rem; }
+
+    /* ── Education ──────────────────────────────────────────────────── */
+    .edu-list { display: flex; flex-direction: column; gap: 0.875rem; }
+    .edu-item { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; }
+    .edu-degree { font-size: 0.875rem; font-weight: 500; }
+    .edu-inst { font-size: 0.8125rem; color: var(--fg-muted); margin-top: 0.125rem; }
+    .edu-year { font-size: 0.8125rem; color: var(--fg-muted); flex-shrink: 0; }
+
+    /* ── Footer ─────────────────────────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 1.5rem 0;
+      font-size: 0.8125rem; color: var(--fg-muted);
+    }
+    .footer-inner {
+      display: flex; flex-wrap: wrap; align-items: center;
+      justify-content: space-between; gap: 0.75rem;
+    }
+    .footer-links { display: flex; align-items: center; gap: 1rem; }
+    .footer-links a { color: var(--primary); text-decoration: none; display: flex; align-items: center; gap: 0.3rem; }
+    .footer-links a:hover { text-decoration: underline; }
+
+    /* ── Chat Widget ────────────────────────────────────────────────── */
+    #chat-panel {
+      position: fixed; bottom: 5.5rem; right: 1.25rem; z-index: 50;
+      width: min(360px, calc(100vw - 2rem));
+      max-height: min(520px, calc(100vh - 140px));
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 16px; box-shadow: var(--shadow-lg);
+      display: flex; flex-direction: column; overflow: hidden;
+      animation: slideUp 0.2s ease;
+    }
+    #chat-panel.hidden { display: none; }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .chat-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.75rem 1rem; border-bottom: 1px solid var(--border);
+      background: color-mix(in srgb, var(--primary) 5%, transparent);
+    }
+    .chat-header-info { display: flex; align-items: center; gap: 0.625rem; }
+    .chat-avatar {
+      width: 34px; height: 34px; border-radius: 50%;
+      overflow: hidden; border: 2px solid color-mix(in srgb, var(--primary) 40%, transparent);
+      flex-shrink: 0;
+    }
+    .chat-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .chat-header-name { font-size: 0.875rem; font-weight: 600; }
+    .chat-header-sub { font-size: 0.75rem; color: var(--fg-muted); }
+    .chat-close {
+      background: none; border: none; cursor: pointer; color: var(--fg-muted);
+      padding: 0.25rem; border-radius: 50%; transition: background 0.15s;
+    }
+    .chat-close:hover { background: var(--muted-bg); color: var(--fg); }
+
+    .chat-messages {
+      flex: 1; overflow-y: auto; padding: 1rem;
+      display: flex; flex-direction: column; gap: 0.75rem;
+      min-height: 0;
+    }
+    .chat-msg { display: flex; gap: 0.5rem; }
+    .chat-msg.user { flex-direction: row-reverse; }
+    .chat-msg-avatar {
+      width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
+      overflow: hidden; border: 1px solid var(--border); margin-top: 2px;
+    }
+    .chat-msg-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .chat-msg-avatar.user-icon {
+      background: var(--muted-bg); display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem; color: var(--fg-muted);
+    }
+    .chat-bubble {
+      max-width: 80%; padding: 0.5rem 0.75rem; border-radius: 14px;
+      font-size: 0.8125rem; line-height: 1.55;
+    }
+    .chat-bubble.assistant {
+      background: var(--muted-bg); color: var(--fg);
+      border-top-left-radius: 4px;
+    }
+    .chat-bubble.user {
+      background: var(--primary); color: var(--primary-fg);
+      border-top-right-radius: 4px;
+    }
+    /* Markdown inside chat bubbles */
+    .chat-bubble.assistant p { margin-bottom: 0.4rem; }
+    .chat-bubble.assistant p:last-child { margin-bottom: 0; }
+    .chat-bubble.assistant ul, .chat-bubble.assistant ol { padding-left: 1.2rem; margin-bottom: 0.4rem; }
+    .chat-bubble.assistant li { margin-bottom: 0.2rem; }
+    .chat-bubble.assistant strong { font-weight: 600; }
+    .chat-bubble.assistant h1, .chat-bubble.assistant h2, .chat-bubble.assistant h3 {
+      font-size: 0.875rem; font-weight: 600; margin-bottom: 0.3rem;
+    }
+
+    .chat-suggestions { display: flex; flex-direction: column; gap: 0.375rem; padding-top: 0.25rem; }
+    .chat-suggestion {
+      background: var(--bg); border: 1px solid var(--border); border-radius: 10px;
+      padding: 0.5rem 0.75rem; font-size: 0.75rem; color: var(--fg-muted);
+      cursor: pointer; text-align: left; transition: all 0.15s;
+    }
+    .chat-suggestion:hover { border-color: var(--primary); color: var(--fg); background: var(--muted-bg); }
+    .chat-suggestions-label { font-size: 0.75rem; color: var(--fg-muted); margin-bottom: 0.25rem; }
+
+    .chat-loading { display: flex; gap: 4px; align-items: center; padding: 0.5rem 0.75rem; }
+    .chat-loading span {
+      width: 6px; height: 6px; border-radius: 50%; background: var(--fg-muted);
+      animation: bounce 1.2s infinite;
+    }
+    .chat-loading span:nth-child(2) { animation-delay: 0.2s; }
+    .chat-loading span:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes bounce {
+      0%, 60%, 100% { transform: translateY(0); }
+      30% { transform: translateY(-5px); }
+    }
+
+    .chat-input-area {
+      padding: 0.75rem; border-top: 1px solid var(--border);
+      display: flex; gap: 0.5rem; align-items: center;
+    }
+    #chat-input {
+      flex: 1; background: var(--muted-bg); border: 1px solid var(--border);
+      border-radius: 10px; padding: 0.5rem 0.75rem; font-size: 0.8125rem;
+      color: var(--fg); outline: none; font-family: inherit;
+      transition: border-color 0.15s;
+    }
+    #chat-input:focus { border-color: var(--primary); }
+    #chat-input::placeholder { color: var(--fg-muted); }
+    #chat-send {
+      background: var(--primary); color: var(--primary-fg); border: none;
+      border-radius: 10px; width: 36px; height: 36px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; transition: opacity 0.15s;
+    }
+    #chat-send:disabled { opacity: 0.5; cursor: not-allowed; }
+    #chat-send:hover:not(:disabled) { opacity: 0.85; }
+
+    /* ── Floating Chat Button ───────────────────────────────────────── */
+    #chat-fab {
+      position: fixed; bottom: 1.25rem; right: 1.25rem; z-index: 50;
+      display: flex; align-items: center; gap: 0.5rem;
+      background: var(--primary); color: var(--primary-fg);
+      border: none; border-radius: 50px; padding: 0.75rem 1.25rem;
+      font-size: 0.875rem; font-weight: 600; cursor: pointer;
+      box-shadow: var(--shadow-lg); transition: transform 0.15s, opacity 0.15s;
+    }
+    #chat-fab:hover { transform: scale(1.04); }
+    #chat-fab:active { transform: scale(0.97); }
+    #chat-fab.is-open {
+      background: var(--muted-bg); color: var(--fg-muted);
+      border: 1px solid var(--border);
+    }
+    @media (max-width: 400px) { #chat-fab .fab-label { display: none; } }
+
+    /* ── Utilities ──────────────────────────────────────────────────── */
+    .hidden { display: none !important; }
+    svg { display: inline-block; vertical-align: middle; }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════════════ HEADER -->
+<header>
+  <div class="container">
+    <div class="header-inner">
+      <div class="header-profile">
+        <div class="header-avatar">
+          <img src="profile.jpg" alt="João Pedro Tonello" />
+        </div>
+        <div class="header-text">
+          <div class="header-name">João Pedro Tonello</div>
+          <div class="header-title">AI Engineer / Data Scientist</div>
+        </div>
+      </div>
+      <nav class="header-nav">
+        <button class="btn active" id="tab-portfolio" onclick="setTab('portfolio')">Portfolio</button>
+        <button class="btn" id="tab-resume" onclick="setTab('resume')">Resume</button>
+        <button class="btn btn-outline btn-ask-header" onclick="openChat()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          Ask about João
+        </button>
+        <button class="btn btn-ghost" id="theme-btn" onclick="toggleTheme()" aria-label="Toggle theme">
+          <svg id="theme-icon-moon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg id="theme-icon-sun" class="hidden" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <span id="theme-label" class="hidden" style="display:none">Dark</span>
+        </button>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<!-- ═══════════════════════════════════════════════════════════════════ MAIN -->
+<main>
+  <div class="container">
+
+    <!-- ── PORTFOLIO TAB ─────────────────────────────────────────── -->
+    <div id="view-portfolio">
+      <!-- Hero -->
+      <div class="hero">
+        <div class="hero-avatar">
+          <img src="profile.jpg" alt="João Pedro Tonello" />
+        </div>
+        <div>
+          <h1>João Pedro Tonello</h1>
+          <div class="hero-title">AI Engineer / Data Scientist</div>
+          <div class="hero-meta">
+            <span>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              São Paulo, Brazil
+            </span>
+            <a href="https://www.linkedin.com/in/joaopedrotonello/" target="_blank" rel="noopener noreferrer">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+              LinkedIn
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- About -->
+      <div class="card about-card">
+        <div class="section-title">About Me</div>
+        <p>I am an AI Engineer and Data Scientist with 8 years of experience in technology, 6 of which focused specifically on data and AI. I have a proven track record of designing and deploying production-grade machine learning systems that drive measurable business impact. My expertise spans the full lifecycle of AI projects: from problem formulation and data architecture to model deployment, governance, and continuous optimization.</p>
+        <div class="badges" id="portfolio-badges"></div>
+      </div>
+
+      <!-- Projects -->
+      <div class="section">
+        <div class="section-title">Projects</div>
+        <div id="portfolio-cards"></div>
+      </div>
+    </div>
+
+    <!-- ── RESUME TAB ─────────────────────────────────────────────── -->
+    <div id="view-resume" class="hidden">
+
+      <!-- About Me -->
+      <div class="card about-card" style="margin-bottom:1.75rem">
+        <div class="section-title">About Me</div>
+        <p>I am an AI Engineer and Data Scientist with 8 years of experience in technology, 6 of which focused specifically on data and AI. I have a proven track record of designing and deploying production-grade machine learning systems that drive measurable business impact. My expertise spans the full lifecycle of AI projects: from problem formulation and data architecture to model deployment, governance, and continuous optimization.</p>
+        <ul class="about-bullets" id="resume-highlights"></ul>
+      </div>
+
+      <!-- Key Technologies -->
+      <div class="card about-card" style="margin-bottom:1.75rem">
+        <div class="section-title" style="font-size:1rem">Key Technologies</div>
+        <div class="badges" id="resume-badges"></div>
+      </div>
+
+      <!-- Experience -->
+      <div class="section">
+        <div class="section-title">Experience</div>
+        <div id="resume-cards"></div>
+      </div>
+
+      <!-- Key Achievements -->
+      <div class="section">
+        <div class="section-title">Key Achievements</div>
+        <div id="achievement-cards"></div>
+      </div>
+
+      <!-- Education -->
+      <div class="card about-card">
+        <div class="section-title" style="font-size:1rem">Education</div>
+        <div class="edu-list" id="education-list"></div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<!-- ═══════════════════════════════════════════════════════════════════ FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-links">
+        <a href="https://www.linkedin.com/in/joaopedrotonello/" target="_blank" rel="noopener noreferrer">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          LinkedIn
+        </a>
+        <span>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          São Paulo, Brazil
+        </span>
+      </div>
+      <p id="footer-year"></p>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════════════════════════════════════ CHAT -->
+<div id="chat-panel" class="hidden">
+  <div class="chat-header">
+    <div class="chat-header-info">
+      <div class="chat-avatar">
+        <img src="profile.jpg" alt="João" />
+      </div>
+      <div>
+        <div class="chat-header-name">Ask about João ✨</div>
+        <div class="chat-header-sub">AI-powered · answers instantly</div>
+      </div>
+    </div>
+    <button class="chat-close" onclick="closeChat()" aria-label="Close chat">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <div class="chat-messages" id="chat-messages"></div>
+  <div class="chat-input-area">
+    <input type="text" id="chat-input" placeholder="Ask me anything..." autocomplete="off" />
+    <button id="chat-send" onclick="sendMessage()" aria-label="Send">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+    </button>
+  </div>
+</div>
+
+<button id="chat-fab" onclick="toggleChat()" aria-label="Ask about João">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+  <span class="fab-label">Ask about João</span>
+</button>
+
+<!-- ═══════════════════════════════════════════════════════════════════ SCRIPT -->
+<script>
+  // ── CONFIG ─────────────────────────────────────────────────────────────────
+  // IMPORTANT: After deploying your backend to Render, replace the URL below
+  // with your actual Render service URL. Example:
+  // const BACKEND_URL = "https://joao-portfolio-backend.onrender.com";
+  const BACKEND_URL = "REPLACE_WITH_YOUR_RENDER_URL";
+
+  // ── DATA ────────────────────────────────────────────────────────────────────
+  const DATA = {
+    "personalInfo": {"name":"João Pedro Tonello","title":"AI Engineer / Data Scientist","linkedin":"https://www.linkedin.com/in/joaopedrotonello/","location":"São Paulo, Brazil","photo":"profile.jpg"},
+    "about": {"title":"About Me","introduction":"I am an AI Engineer and Data Scientist with 8 years of experience in technology, 6 of which focused specifically on data and AI. I have a proven track record of designing and deploying production-grade machine learning systems that drive measurable business impact. My expertise spans the full lifecycle of AI projects: from problem formulation and data architecture to model deployment, governance, and continuous optimization.","highlights":["Specialized in building end-to-end AI solutions: LLMs, NLP, predictive modeling, and decision support systems","Proficient in production ML operations: MLflow, Databricks, Azure AI Services, and cloud infrastructure","Expert in designing Human-in-the-Loop workflows for high-stakes decision environments","Deep experience with data governance, RBAC, and compliance in regulated industries","Pragmatic approach to AI: shipping high-impact MVPs while maintaining technical rigor","Strong background in translating business problems into quantifiable ML objectives"],"keyTechnologies":["LLMs & Generative AI","Python, SQL, PySpark","Machine Learning (XGBoost, scikit-learn, TensorFlow)","Natural Language Processing (NLP)","Azure AI (Search, Services, Foundry)","Databricks & Delta Lake","MLflow & Model Governance","Data Architecture & Lakehouse Design","Power BI & Data Visualization","AWS & Cloud Infrastructure"]},
+    "portfolio": [
+      {"title":"Genie Databricks: Talk to your data","executiveSummary":"Architected and deployed a Natural Language to SQL (NL2SQL) interface integrated with Microsoft Teams, empowering Partners and the Executive Board to query financial and operational data with strict governance and audit trails. Through rigorous production tuning and knowledge curation, the NL2SQL accuracy rate improved from ~40% to ~95%.","details":{"contextAndProblem":"The Executive Board and approximately 90 Partners relied on a small Data/Controllership team to answer complex questions regarding billable hours, legal fees, invoicing, cost allocation, clients, and active matters. Retrieving these answers required manual dashboard navigation or ad-hoc SQL writing, resulting in turnaround times ranging from hours to days.","constraintsAndRisks":"The dataset contained highly sensitive information (including financial transactions and HR records). Therefore, the solution required strict Role-Based Access Control (RBAC), full auditability, and a \"human-in-the-loop\" review mechanism to mitigate the risk of incorrect responses or data leakage.","solutionAndArchitecture":"I centralized the critical tables within the Lakehouse architecture, enforcing governance via Unity Catalog. The solution involved enriching the data dictionary and business rules with natural language descriptions, defining strict table relationships and maintaining a \"few-shot\" example base (Question → SQL) to enhance model reliability, and developing a Microsoft Teams bot interface with two key controls: (1) displaying the generated SQL for transparency and (2) triggering a human review loop when confidence was low or upon user request.","implementation":"Hosted the webapp/bot on Microsoft Azure with seamless Teams integration. Access control was managed via Teams administration synced with Databricks data permissions, ensuring users could only query data authorized for their specific group. The human review workflow generated a ticket containing the context and the generated SQL for immediate audit and correction.","evaluation":"Performance was monitored through a continuous operational feedback loop. Every reviewed request was tagged as correct/incorrect, directly feeding back into the knowledge base (refining rules, examples, and context). The accuracy metric (defined as \"approved response without significant manual correction\") surged from ~40% in the first week to ~95% after the initial tuning cycles.","impact":"Substantially reduced time-to-answer for critical business queries. Increased Partner autonomy and trust in data, driven by the transparency of visible SQL and on-demand human review. Eliminated the bottleneck in the Data team, improving alignment on business rules and definitions across the firm.","keyLearnings":"Solidified best practices in Data Governance, production-grade NL2SQL system design, and corporate chatbot integration with security/audit mechanisms. Deepened understanding of internal business logic by translating tacit institutional knowledge into structured operational instructions."}},
+      {"title":"Automated Data Extraction & Structuring for Fee Proposals","executiveSummary":"Developed an AI-driven pipeline to extract structured data from diverse fee proposal formats (PDF, PPTX, DOCX), replacing a manual, error-prone process. The solution reduced processing time by ~80%, saving approximately 960 hours of operational work annually and creating a reliable dataset that enabled downstream predictive analytics.","details":{"contextAndProblem":"The Marketing team received hundreds of fee proposals in varied unstructured formats. Manually logging key details (pricing model, scope, client, fees, practice areas) into spreadsheets was time-consuming (15 mins/doc) and inconsistent, leading to low data coverage. Valuable commercial data was locked in documents, inaccessible for analysis.","constraintsAndRisks":"The primary risk was Data Quality rather than just privacy. Incorrect extraction or ambiguous fields could introduce \"silent errors,\" contaminating downstream reporting and decision-making. The system also had to handle Data Drift, as document layouts and language styles varied significantly over time. A robust \"Human-in-the-Loop\" (HITL) review process was mandatory.","solutionAndArchitecture":"I implemented an extraction pipeline on Microsoft Azure using Azure AI Foundry. The architecture consisted of two distinct layers: (1) Extraction & Interpretation: An LLM with specialized prompt engineering ingested raw text to identify and normalize fields based on specific business rules. (2) Schema Enforcement & Validation: The LLM output was forced into a strict schema with controlled vocabularies (dropdowns) and standardized formats to ensure consistency across the dataset.","implementationAndOperation":"The tool automatically populated a database row for each processed document, flagging AI-inferred values for rapid human validation. We established an iterative loop where recurring extraction errors drove updates to the prompt engineering and normalization logic.","evaluation":"Success was measured by the Correction Rate (percentage of fields requiring human edit) and Time-to-Review. User corrections served as immediate feedback for the model, creating a continuous improvement cycle. We achieved 100% capture of incoming proposals without increasing headcount.","impact":"Operational Scalability: Increased processing volume to ~400 proposals/month (near 100% coverage). Efficiency Gains: Reduced average handling time from 15 minutes (manual entry) to 3 minutes (review only), a saving of ~12 minutes per document. ROI: Saved ~80 hours/month, totaling ~960 hours (approx. 120 workdays) annually, allowing the team to focus on high-value strategic tasks. Strategic Value: Created the foundational structured dataset required to build the Conversion Propensity Model.","keyLearnings":"Mastered the architecture of LLM-based Structured Extraction in production. Deepened expertise in schema definition, data normalization, and designing effective Human-in-the-Loop workflows for quality control. Gained significant domain knowledge regarding commercial pricing structures and proposal dynamics."}},
+      {"title":"Proposal Conversion Propensity Model & Explainable AI","executiveSummary":"Built a supervised classification model to predict the probability of a client accepting a fee proposal. By combining structured deal data with unstructured text embeddings (scope descriptions), the model achieved an AUC of ~0.82. Adoption of the tool by Partners coincided with an observed conversion rate increase from 35% to 48%, supported by an explainability layer designed to guide, not dictate, commercial negotiation.","details":{"contextAndProblem":"With the newly structured dataset of fee proposals, the Commercial team sought to move beyond \"gut feeling\" and fragmented memory. They needed a data-driven way to estimate the likelihood of winning a deal during the drafting phase and, crucially, to understand which levers (pricing model, scope phrasing, team composition) might influence the outcome.","constraintsAndRisks":"The primary risk was not statistical error, but misinterpretation. Predictive models learn historical correlations, which do not imply causality. Guardrails: The tool was explicitly framed as \"Decision Support\" rather than automated decision-making. We trained users to treat outputs as \"data-backed hypotheses\" to avoid spurious interventions. Technical Risks: We rigorously managed Data Leakage and monitored for Concept Drift in proposal styles.","solutionAndArchitecture":"I implemented a Gradient Boosting (XGBoost) classifier, selected for its balance of performance and robustness on tabular data. Hybrid Feature Engineering: Combined structured variables (pricing, client tier, practice area) with unstructured text embeddings derived from the scope of work, which significantly boosted predictive power. Explainability Layer: Integrated an interpretation mechanism (similar to SHAP values) to visualize \"what is driving the probability up or down\" for each specific proposal.","implementation":"The end-to-end solution was architected in Databricks (Python). Experiment Tracking: Used MLflow to log metrics, hyperparameters, and artifacts, ensuring full reproducibility. Deployment: The model was registered and deployed as a REST API endpoint, allowing seamless integration with internal systems.","evaluation":"Beyond standard metrics (AUC ~0.82), evaluation focused on Generalization and Utility. We analyzed error rates across specific segments to ensure the model wasn't biased against specific deal types.","impact":"Among the cohort of Partners who adopted the tool, the proposal acceptance rate rose from 35% to 48%. The tool became a key instrument for executives during proposal drafting, driving better prioritization, pricing calibration, and a systematic understanding of conversion patterns.","keyLearnings":"Consolidated the full lifecycle of a Business-Facing ML Product: from rigorous leakage control in dataset construction to the delivery of a consumable API. Learned how to design an Interpretation Layer that enhances practical utility without selling correlation as causality."}},
+      {"title":"Realization Rate Prediction for Profitability Management","executiveSummary":"Developed a regression model to predict the Realization Rate (Billed Revenue ÷ Standard Value of Hours) of fee proposals before they are sent to clients. By treating realization as a proxy for profitability risk, the tool enables Partners to quantify the trade-off between winning the deal and margin quality.","details":{"contextAndProblem":"In professional services, fee proposals involve a constant trade-off: aggressive pricing increases the chance of acceptance but erodes profitability. The Goal: Provide a quantitative forecast of the Realization Rate during the proposal drafting phase, anticipating whether a specific case is likely to yield healthy margins.","solutionAndArchitecture":"Developed a regression model (XGBoost Regressor) with hybrid features combining structured proposal data with text embeddings. The model was integrated into the same Databricks/MLflow pipeline as the Conversion model, enabling side-by-side visualization of both metrics.","impact":"Enabled a dual-objective optimization framework: Partners could now simultaneously consider the probability of winning AND the expected margin quality, leading to more strategically calibrated proposals and improved overall portfolio profitability.","keyLearnings":"Deepened expertise in multi-objective ML systems and the practical challenges of deploying regression models in business decision contexts."}},
+      {"title":"AI-Driven Moderation Appeals for Reputation Management","executiveSummary":"Engineered a multi-stage AI system to automate and improve the quality of moderation appeals on a third-party reputation platform. The final solution, a fine-tuned LLM on Azure AI Foundry integrated into Microsoft Teams, increased successful moderation appeals by ~50% and standardized high-quality responses.","details":{"contextAndProblem":"The firm faced a persistent challenge with negative reviews on a third-party reputation platform. The process of filing moderation appeals was manual, inconsistent in quality, and time-consuming for the legal team responsible for managing the firm's reputation.","solutionAndArchitecture":"I designed a multi-stage pipeline: (1) Review Classification: Categorizing reviews by violation type and severity. (2) Evidence Extraction: Identifying specific policy violations in review text. (3) Appeal Generation: A fine-tuned LLM trained on successful historical appeals to generate high-quality, policy-compliant appeal letters. (4) Human Review: Integration into Microsoft Teams for final approval before submission.","implementation":"The fine-tuning process used a curated dataset of successful and unsuccessful appeals, teaching the model the specific argumentation style and policy language that maximized approval rates. The Teams integration ensured human oversight while dramatically reducing drafting time.","impact":"Increased successful moderation appeals by ~50%. Standardized appeal quality across the team. Reduced average drafting time from hours to minutes. Created an institutional knowledge base of effective appeal strategies.","keyLearnings":"Gained deep expertise in LLM fine-tuning for domain-specific tasks, the importance of high-quality training data curation, and designing human-AI collaborative workflows for high-stakes content generation."}},
+      {"title":"Subrogation Prioritization System for Auto Insurance Claims","executiveSummary":"Designed and deployed a calibrated ML pipeline to identify and economically prioritize subrogation opportunities in auto insurance claims. The system recovered ~2% of eligible claims previously missed by manual triage, generating millions in annualized revenue.","details":{"contextAndProblem":"Subrogation (recovering claim costs from at-fault third parties) was managed through manual triage by adjusters. This process was inconsistent, missed economically viable cases, and lacked a systematic way to prioritize the claims most likely to yield recovery.","solutionAndArchitecture":"I built a two-stage ML pipeline: (1) Subrogation Eligibility Classifier: Predicting whether a claim has subrogation potential based on accident characteristics, fault indicators, and historical recovery patterns. (2) Economic Prioritization Score: A regression model estimating the expected recovery value, enabling adjusters to focus on highest-ROI cases first.","implementation":"The pipeline was deployed on Azure ML, integrated with the claims management system. Calibration was critical: the classifier's probability outputs were calibrated to reflect true recovery likelihood, enabling reliable economic prioritization. MLflow tracked all experiments and model versions.","evaluation":"Model performance was evaluated on both classification metrics (precision/recall on subrogation eligibility) and business metrics (recovery rate improvement, adjuster efficiency). The calibration quality was validated through reliability diagrams.","impact":"Recovered ~2% of eligible claims previously missed by manual triage. Generated millions in annualized revenue. Improved adjuster efficiency by providing a ranked worklist. Established a data-driven foundation for continuous improvement of the subrogation process.","keyLearnings":"Mastered probability calibration for business-critical ML systems, the importance of aligning model metrics with business KPIs, and the challenges of deploying ML in regulated insurance environments."}},
+      {"title":"Retail Inventory Expiry Optimization","executiveSummary":"Built a predictive model to forecast product expiry risk in retail inventory, enabling proactive markdown and redistribution decisions. The system reduced waste by optimizing the timing and magnitude of interventions before products reached their expiry date.","details":{"contextAndProblem":"Retail operations faced significant losses from expired inventory. The existing process relied on manual inspection and reactive markdowns, often too late to prevent waste. The goal was to predict which products were at risk of expiring before sale and recommend optimal intervention timing.","solutionAndArchitecture":"Developed a survival analysis approach combined with gradient boosting to predict the probability of a product expiring unsold as a function of current inventory levels, sales velocity, days to expiry, and seasonal patterns. The model output a risk score and recommended intervention (markdown percentage, redistribution) for each SKU.","implementation":"The solution was built in Python using PySpark for large-scale data processing, integrated with the inventory management system. Daily batch scoring provided updated risk assessments and recommendations to store managers.","impact":"Reduced inventory waste through earlier and more targeted interventions. Improved margin recovery through optimized markdown timing. Provided store managers with actionable, data-driven recommendations replacing ad-hoc decisions.","keyLearnings":"Gained expertise in survival analysis for business applications, large-scale data processing with PySpark, and the operational challenges of deploying ML recommendations in retail environments."}}
+    ],
+    "achievements": [
+      {"title":"NL2SQL Executive Analytics Platform","description":"Architected and deployed a production-grade NL2SQL system integrated with Microsoft Teams using Genie Databricks API. The initial production version launched with ~40% accuracy, which increased to ~95% through iterative tuning, human-in-the-loop feedback, and continuous knowledge curation."},
+      {"title":"LLM-Based Document Information Extraction","description":"Developed a scalable LLM information extraction pipeline for fee proposals (PDF, DOCX, PPTX), reducing manual processing time by ~80%, saving ~960 hours of work annually, and enabling 100% structured data coverage for downstream analytics."},
+      {"title":"AI-Driven Moderation Appeals for Reputation Management","description":"Engineered a multi-stage system culminating in a fine-tuned LLM on Azure AI Foundry, integrated into Microsoft Teams, increasing successful moderation appeals on a third-party reputation platform by ~50% and standardizing high-quality responses."},
+      {"title":"Subrogation Prioritization System for Auto Insurance Claims","description":"Designed and deployed a calibrated ML pipeline to identify and economically prioritize subrogation opportunities, recovering ~2% of eligible claims that were previously missed by manual triage and generating millions in annualized revenue."}
+    ],
+    "education": [
+      {"degree":"MBA in Data Science & Analytics","institution":"University of São Paulo","year":"2022"},
+      {"degree":"B.Eng. in Instrumentation, Automation & Robotics","institution":"Federal University of ABC","year":"2020"},
+      {"degree":"B.Sc. in Science & Technology","institution":"Federal University of ABC","year":"2018"}
+    ],
+    "resume": [
+      {"title":"AI Engineer / Data Scientist","company":"Demarest Advogados","period":"2022 – Present","summary":"Leading the design and deployment of production-grade AI and ML systems for one of Brazil's largest law firms, transforming unstructured legal and commercial data into strategic business intelligence.","details":["Architected and deployed a production NL2SQL system (Genie Databricks + Microsoft Teams) that improved query accuracy from ~40% to ~95%, enabling the Executive Board and 90+ Partners to self-serve complex financial queries","Built an LLM-based document extraction pipeline (Azure AI Foundry) processing ~400 fee proposals/month, reducing manual handling time by ~80% and saving ~960 hours annually","Developed a Proposal Conversion Propensity Model (XGBoost + text embeddings, AUC ~0.82) that coincided with a conversion rate increase from 35% to 48% among adopting Partners","Engineered a fine-tuned LLM system for moderation appeals (Azure AI Foundry + Teams), increasing successful appeals by ~50%","Designed and maintained the Lakehouse architecture (Databricks, Delta Lake, Unity Catalog) supporting all analytical workloads with strict data governance and RBAC","Built Power BI dashboards and self-service analytics infrastructure used daily by Partners and the Executive Board"]},
+      {"title":"Data Scientist","company":"Zurich Insurance","period":"2022 – 2022","summary":"Developed and deployed machine learning models for the auto insurance claims division, focusing on subrogation recovery optimization and fraud detection.","details":["Designed and deployed a calibrated ML pipeline for subrogation prioritization, recovering ~2% of previously missed eligible claims and generating millions in annualized revenue","Built probability-calibrated models integrated with the claims management system, providing adjusters with ranked worklists and expected recovery values","Implemented MLflow experiment tracking and model governance workflows, ensuring full reproducibility and auditability of all deployed models","Collaborated with actuarial and legal teams to translate business rules into ML features and evaluation criteria"]},
+      {"title":"Data Analyst / BI Developer","company":"Involves","period":"2018 – 2022","summary":"Built data infrastructure and analytics solutions for a B2B SaaS company in the retail execution space, supporting product decisions and client success with data-driven insights.","details":["Developed and maintained ETL pipelines and data warehouse infrastructure supporting product analytics and client reporting","Built self-service BI dashboards (Power BI) used by clients to monitor retail execution KPIs across thousands of store visits","Collaborated with product and engineering teams to instrument new features and define success metrics","Developed the Retail Inventory Expiry Optimization model using PySpark and survival analysis, reducing inventory waste for retail clients","Supported data-driven product decisions through cohort analysis, funnel analysis, and A/B test evaluation"]}
+    ]
+  };
+
+  // ── THEME ────────────────────────────────────────────────────────────────────
+  let isDark = localStorage.getItem('theme') === 'dark';
+  function applyTheme() {
+    document.body.classList.toggle('dark', isDark);
+    document.getElementById('theme-icon-moon').classList.toggle('hidden', isDark);
+    document.getElementById('theme-icon-sun').classList.toggle('hidden', !isDark);
+  }
+  function toggleTheme() { isDark = !isDark; localStorage.setItem('theme', isDark ? 'dark' : 'light'); applyTheme(); }
+  applyTheme();
+
+  // ── TABS ─────────────────────────────────────────────────────────────────────
+  function setTab(tab) {
+    document.getElementById('view-portfolio').classList.toggle('hidden', tab !== 'portfolio');
+    document.getElementById('view-resume').classList.toggle('hidden', tab !== 'resume');
+    document.getElementById('tab-portfolio').classList.toggle('active', tab === 'portfolio');
+    document.getElementById('tab-resume').classList.toggle('active', tab === 'resume');
+  }
+
+  // ── DROPDOWN ─────────────────────────────────────────────────────────────────
+  function makeDropdown(triggerHTML, bodyHTML) {
+    const div = document.createElement('div');
+    div.className = 'card dropdown-card';
+    const btn = document.createElement('button');
+    btn.className = 'dropdown-trigger';
+    btn.innerHTML = triggerHTML + `<svg class="dropdown-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>`;
+    const body = document.createElement('div');
+    body.className = 'dropdown-body';
+    body.innerHTML = bodyHTML;
+    btn.onclick = () => {
+      const open = body.classList.toggle('open');
+      btn.querySelector('.dropdown-chevron').classList.toggle('open', open);
+    };
+    div.appendChild(btn); div.appendChild(body);
+    return div;
+  }
+
+  function detailSection(label, text) {
+    if (!text) return '';
+    return `<div class="detail-section"><div class="detail-label">${label}</div><div class="detail-text">${text}</div></div>`;
+  }
+
+  // ── RENDER ───────────────────────────────────────────────────────────────────
+  function render() {
+    const { about, portfolio, achievements, education, resume } = DATA;
+
+    // Portfolio badges
+    const pb = document.getElementById('portfolio-badges');
+    about.keyTechnologies.forEach(t => { const s = document.createElement('span'); s.className = 'badge'; s.textContent = t; pb.appendChild(s); });
+
+    // Portfolio cards
+    const pc = document.getElementById('portfolio-cards');
+    portfolio.forEach(item => {
+      const d = item.details;
+      // Full image at top of expanded body (if image exists)
+      const imageBodyHTML = item.image
+        ? `<div style="margin-bottom:1rem;border-radius:8px;overflow:hidden;border:1px solid var(--border)"><img src="${item.image}" alt="${item.title}" style="width:100%;max-height:280px;object-fit:cover;display:block" /></div>`
+        : '';
+      const bodyHTML = imageBodyHTML + [
+        detailSection('Context & Problem', d.contextAndProblem),
+        detailSection('Constraints & Risks', d.constraintsAndRisks),
+        detailSection('Solution & Architecture', d.solutionAndArchitecture),
+        detailSection('Implementation', d.implementation),
+        detailSection('Implementation & Operation', d.implementationAndOperation),
+        detailSection('Evaluation', d.evaluation),
+        detailSection('Impact', d.impact),
+        detailSection('Key Learnings', d.keyLearnings),
+      ].join('');
+      // Thumbnail shown when collapsed (if image exists)
+      const thumbHTML = item.image
+        ? `<div style="flex-shrink:0"><img src="${item.image}" alt="${item.title}" style="width:64px;height:64px;border-radius:8px;object-fit:cover;border:1px solid var(--border)" /></div>`
+        : '';
+      const triggerHTML = `${thumbHTML}<div class="flex-1"><div class="dropdown-title">${item.title}</div><div class="dropdown-summary">${item.executiveSummary}</div></div>`;
+      const card = makeDropdown(triggerHTML, bodyHTML);
+      // Hide thumbnail when expanded, show when collapsed
+      const btn = card.querySelector('.dropdown-trigger');
+      const thumb = btn ? btn.querySelector('img') : null;
+      if (thumb) {
+        card.addEventListener('click', () => {
+          const isOpen = card.querySelector('.dropdown-body.open');
+          if (thumb) thumb.style.display = isOpen ? 'none' : 'block';
+        });
+      }
+      pc.appendChild(card);
+    });
+
+    // Resume highlights & badges
+    const rh = document.getElementById('resume-highlights');
+    about.highlights.forEach(h => { const li = document.createElement('li'); li.textContent = h; rh.appendChild(li); });
+    const rb = document.getElementById('resume-badges');
+    about.keyTechnologies.forEach(t => { const s = document.createElement('span'); s.className = 'badge'; s.textContent = t; rb.appendChild(s); });
+
+    // Resume cards
+    const rc = document.getElementById('resume-cards');
+    resume.forEach(item => {
+      const bodyHTML = `<ul class="resume-details">${item.details.map(d => `<li>${d}</li>`).join('')}</ul>`;
+      const triggerHTML = `<div class="flex-1"><div class="dropdown-title">${item.title}</div><div style="margin-bottom:0.375rem"><span class="resume-company">${item.company}</span><span class="resume-period">${item.period}</span></div><div class="dropdown-summary">${item.summary}</div></div>`;
+      rc.appendChild(makeDropdown(triggerHTML, bodyHTML));
+    });
+
+    // Achievements
+    const ac = document.getElementById('achievement-cards');
+    achievements.forEach(item => {
+      const triggerHTML = `<div class="flex-1"><div class="dropdown-title"><span class="achievement-star">★</span>${item.title}</div></div>`;
+      const bodyHTML = `<div class="detail-text">${item.description}</div>`;
+      ac.appendChild(makeDropdown(triggerHTML, bodyHTML));
+    });
+
+    // Education
+    const el = document.getElementById('education-list');
+    education.forEach(item => {
+      el.innerHTML += `<div class="edu-item"><div><div class="edu-degree">${item.degree}</div><div class="edu-inst">${item.institution}</div></div><div class="edu-year">${item.year}</div></div>`;
+    });
+
+    // Footer year
+    document.getElementById('footer-year').textContent = `© ${new Date().getFullYear()} João Pedro Tonello. All rights reserved.`;
+  }
+
+  render();
+
+  // ── CHAT ─────────────────────────────────────────────────────────────────────
+  let chatHistory = [];
+  const SUGGESTED = ["What are your main AI skills?","Tell me about your best project","What's your work experience?","Why should I hire João?"];
+
+  function openChat() { document.getElementById('chat-panel').classList.remove('hidden'); document.getElementById('chat-fab').classList.add('is-open'); document.getElementById('chat-input').focus(); }
+  function closeChat() { document.getElementById('chat-panel').classList.add('hidden'); document.getElementById('chat-fab').classList.remove('is-open'); }
+  function toggleChat() { document.getElementById('chat-panel').classList.contains('hidden') ? openChat() : closeChat(); }
+
+  function appendMsg(role, html, isMarkdown = false) {
+    const msgs = document.getElementById('chat-messages');
+    const row = document.createElement('div');
+    row.className = `chat-msg ${role}`;
+    const avatar = document.createElement('div');
+    avatar.className = 'chat-msg-avatar';
+    if (role === 'assistant') {
+      avatar.innerHTML = '<img src="profile.jpg" alt="João" />';
+    } else {
+      avatar.className += ' user-icon';
+      avatar.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>';
+    }
+    const bubble = document.createElement('div');
+    bubble.className = `chat-bubble ${role}`;
+    if (isMarkdown && typeof marked !== 'undefined') {
+      bubble.innerHTML = marked.parse(html);
+    } else {
+      bubble.textContent = html;
+    }
+    row.appendChild(avatar); row.appendChild(bubble);
+    msgs.appendChild(row);
+    msgs.scrollTop = msgs.scrollHeight;
+    return bubble;
+  }
+
+  function showSuggestions() {
+    const msgs = document.getElementById('chat-messages');
+    const wrap = document.createElement('div');
+    wrap.id = 'chat-suggestions-wrap';
+    wrap.innerHTML = '<div class="chat-suggestions-label">Try asking:</div>';
+    const list = document.createElement('div');
+    list.className = 'chat-suggestions';
+    SUGGESTED.forEach(q => {
+      const btn = document.createElement('button');
+      btn.className = 'chat-suggestion';
+      btn.textContent = q;
+      btn.onclick = () => sendMessage(q);
+      list.appendChild(btn);
+    });
+    wrap.appendChild(list);
+    msgs.appendChild(wrap);
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+
+  function removeSuggestions() {
+    const el = document.getElementById('chat-suggestions-wrap');
+    if (el) el.remove();
+  }
+
+  // Init chat
+  appendMsg('assistant', "Hi! I'm João's AI assistant — ask me anything about his experience, projects, or skills! 🚀");
+  showSuggestions();
+
+  // Auto-open on desktop
+  if (window.innerWidth >= 900) {
+    setTimeout(openChat, 1200);
+  }
+
+  async function sendMessage(text) {
+    const input = document.getElementById('chat-input');
+    const msg = text || input.value.trim();
+    if (!msg) return;
+    input.value = '';
+    removeSuggestions();
+    appendMsg('user', msg);
+    chatHistory.push({ role: 'user', content: msg });
+
+    // Loading indicator
+    const msgs = document.getElementById('chat-messages');
+    const loadRow = document.createElement('div');
+    loadRow.className = 'chat-msg assistant';
+    loadRow.id = 'chat-loading-row';
+    loadRow.innerHTML = `<div class="chat-msg-avatar"><img src="profile.jpg" alt="João" /></div><div class="chat-bubble assistant"><div class="chat-loading"><span></span><span></span><span></span></div></div>`;
+    msgs.appendChild(loadRow);
+    msgs.scrollTop = msgs.scrollHeight;
+
+    document.getElementById('chat-send').disabled = true;
+    input.disabled = true;
+
+    try {
+      const backendUrl = BACKEND_URL.replace(/\/$/, '');
+      const res = await fetch(`${backendUrl}/api/chat`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: chatHistory })
+      });
+
+      loadRow.remove();
+
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({ error: 'Unknown error' }));
+        appendMsg('assistant', err.error || 'Sorry, something went wrong. Please try again.');
+        chatHistory.pop();
+      } else {
+        const data = await res.json();
+        const content = data.content || 'Sorry, I could not generate a response.';
+        chatHistory.push({ role: 'assistant', content });
+        appendMsg('assistant', content, true);
+      }
+    } catch (e) {
+      loadRow.remove();
+      appendMsg('assistant', 'Sorry, I\'m having trouble connecting right now. Please try again in a moment.');
+      chatHistory.pop();
+    } finally {
+      document.getElementById('chat-send').disabled = false;
+      input.disabled = false;
+      input.focus();
+    }
+  }
+
+  document.getElementById('chat-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+  });
+</script>
+</body>
+</html>
