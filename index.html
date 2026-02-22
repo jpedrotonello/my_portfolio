@@ -523,7 +523,15 @@
 <script>
   // ── CONFIG ─────────────────────────────────────────────────────────────────
   // IMPORTANT: After deploying your backend to Render, replace the URL below
+  // with your actual Render service URL. Example:
+  // const BACKEND_URL = "https://joao-portfolio-backend.onrender.com";
   const BACKEND_URL = "https://my-portfolio-2524.onrender.com";
+
+  // Detect if running locally or on GitHub Pages and set the correct base path for images
+  const isLocalFile = window.location.protocol === 'file:';
+  const isGitHubPages = window.location.hostname === 'jpedrotonello.github.io';
+  const BASE_PATH = isLocalFile ? '' : (isGitHubPages ? './my_portfolio/' : '');
+  console.log(`[Config] Environment: ${isLocalFile ? 'Local File' : (isGitHubPages ? 'GitHub Pages' : 'Other')}, BASE_PATH: "${BASE_PATH}"`);
 
   // ── DATA ────────────────────────────────────────────────────────────────────
   const DATA = {
@@ -611,7 +619,7 @@
       const d = item.details;
       // Full image at top of expanded body (if image exists)
       const imageBodyHTML = item.image
-        ? `<div style="margin-bottom:1rem;border-radius:8px;overflow:hidden;border:1px solid var(--border)"><img src="${item.image}" alt="${item.title}" style="width:100%;max-height:280px;object-fit:cover;display:block" /></div>`
+        ? `<div style="margin-bottom:1rem;border-radius:8px;overflow:hidden;border:1px solid var(--border)"><img src="${BASE_PATH}${item.image}" alt="${item.title}" style="width:100%;max-height:280px;object-fit:cover;display:block" /></div>`
         : '';
       const bodyHTML = imageBodyHTML + [
         detailSection('Context & Problem', d.contextAndProblem),
@@ -625,7 +633,7 @@
       ].join('');
       // Thumbnail shown when collapsed (if image exists)
       const thumbHTML = item.image
-        ? `<div style="flex-shrink:0"><img src="${item.image}" alt="${item.title}" style="width:64px;height:64px;border-radius:8px;object-fit:cover;border:1px solid var(--border)" /></div>`
+        ? `<div style="flex-shrink:0"><img src="${BASE_PATH}${item.image}" alt="${item.title}" style="width:64px;height:64px;border-radius:8px;object-fit:cover;border:1px solid var(--border)" /></div>`
         : '';
       const triggerHTML = `${thumbHTML}<div class="flex-1"><div class="dropdown-title">${item.title}</div><div class="dropdown-summary">${item.executiveSummary}</div></div>`;
       const card = makeDropdown(triggerHTML, bodyHTML);
