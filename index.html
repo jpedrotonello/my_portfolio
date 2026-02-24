@@ -432,7 +432,8 @@
       <!-- About -->
       <div class="card about-card">
         <div class="section-title">About Me</div>
-        <p>I am an AI Engineer and Data Scientist with 8 years of experience in technology, 6 of which focused specifically on data and AI. I have a proven track record of designing and deploying production-grade machine learning systems that drive measurable business impact. My expertise spans the full lifecycle of AI projects: from problem formulation and data architecture to model deployment, governance, and continuous optimization.</p>
+        <p>I am a Data Scientist with 8 years of experience in technology and 6 years dedicated to data, machine learning, and AI. I have a background in Automation and Robotics Engineering and have worked across large organizations such as Zurich Insurance, the National Telecommunications Institute, Mercedes-Benz, and one of Latam’s largest law firms. My background spans insurance, legal analytics, finance, risk modeling, and the development of complex AI solutions including LLM integration, end-to-end pipelines, human-in-the-loop workflows, and production monitoring.</p>
+        <p>My work focuses on measurable business impact rather than model novelty. I help improve revenue capture, pricing decisions, operational efficiency, and decision quality. I’m comfortable working with both structured and unstructured data, combining techniques such as gradient boosting, probability calibration, Monte Carlo methods, embeddings, and large language models to deliver precise, robust, and governable AI systems.</p>
         <div class="badges" id="portfolio-badges"></div>
       </div>
 
@@ -449,7 +450,7 @@
       <!-- About Me -->
       <div class="card about-card" style="margin-bottom:1.75rem">
         <div class="section-title">About Me</div>
-        <p>I am an AI Engineer and Data Scientist with 8 years of experience in technology, 6 of which focused specifically on data and AI. I have a proven track record of designing and deploying production-grade machine learning systems that drive measurable business impact. My expertise spans the full lifecycle of AI projects: from problem formulation and data architecture to model deployment, governance, and continuous optimization.</p>
+        <p>I am a Data Scientist with eight years of experience in technology and six years dedicated to data, machine learning, and AI. I have a background in Automation and Robotics Engineering and have worked across major organizations in insurance, finance, telecommunications, and legal services. My experience ranges from predictive modeling and risk analytics to the design of AI systems deployed in real workflows, including LLM-driven components when they materially improve accuracy, efficiency, or decision quality. I focus on measurable business impact rather than model novelty, combining statistical modeling, probabilistic methods, and modern AI techniques to deliver solutions that are reliable, interpretable, and aligned with real operational constraints.</p>
         <ul class="about-bullets" id="resume-highlights"></ul>
       </div>
 
@@ -554,7 +555,7 @@
   const DATA = {
   "personalInfo": {
     "name": "João Pedro Tonello",
-    "title": "AI Engineer / Data Scientist",
+    "title": "Senior Data Scientist — Applied AI & ML Engineering",
     "linkedin": "https://www.linkedin.com/in/joaopedrotonello/",
     "location": "São Paulo, Brazil",
     "photo": "3480-PedroTonello.jpg"
@@ -563,28 +564,72 @@
     "title": "About Me",
     "introduction": "",
     "highlights": [
-      "Specialized in building end-to-end AI/ML solutions: LLMs, NLP, predictive modeling, and decision support systems",
-      "Proficient in production ML operations: MLflow, Databricks, Azure AI Services, and cloud infrastructure",
-      "Proficient in designing Human-in-the-Loop workflows for high-stakes decision environments",
-      "Deep experience with data governance, RBAC, and compliance in regulated industries",
-      "Pragmatic approach to AI: shipping high-impact MVPs while maintaining technical rigor",
-      "Strong background in translating business problems into quantifiable ML objectives"
+      "Advanced experience in predictive modeling, risk analytics, and statistical learning",
+      "Strong expertise in feature engineering, leakage control, temporal validation, and calibration",
+      "Skilled in combining structured and unstructured data using embeddings and modern NLP",
+      "Specialized in applying LLMs to analytical workflows when they add measurable value",
+      "Solid experience with ML operations: experiment tracking, reproducible pipelines, and governed deployments",
+      "Deep knowledge of data governance, RBAC, monitoring, and auditability in regulated environments",
+      "Able to design Human-in-the-Loop systems for quality control and operational reliability",
+      "Pragmatic approach to AI: high-impact MVPs with technical rigor",
+      "Strong ability to translate business problems into quantifiable ML objectives and KPIs",
     ],
     "keyTechnologies": [
-      "LLMs & Generative AI",
-      "Python, SQL, PySpark",
-      "Machine Learning (XGBoost, scikit-learn)",
+      "Machine Learning & Statistical Modeling",
       "Deep Learning (PyTorch, TensorFlow)",
-      "Natural Language Processing (NLP)",
-      "Azure AI (Foundry, Search, Services)",
-      "Databricks & Delta Lake",
+      "NLP & Text Embeddings",
+      "LLM Applications",
+      "Python",
+      "SQL",
+      "PySpark",
+      "Databricks & Unity Catalog",
       "MLflow & Model Governance",
-      "Data Architecture & Lakehouse Design",
+      "Azure AI Services",
+      "Data Architecture & Feature Engineering",
       "Power BI & Data Visualization",
       "Cloud Infrastructure"
     ]
   },
   "portfolio": [
+    {
+      "title": "Claims Subrogation & Economic Prioritization with ML",
+      "executiveSummary": "Architected a machine learning system to identify auto insurance claims eligible for Subrogation (recovery of costs from at-fault third parties). Adopting a pragmatic \"revenue-first\" strategy, I launched a text-based MVP to immediately stop revenue leakage, later evolving it into a multimodal system with an Economic Prioritization Layer based on calibrated probabilities.",
+      "details": {
+        "contextAndProblem": "Subrogation triage was a manual, bottlenecked process. Analysts spent hours reading free-text claim narratives to identify potential third-party liability such as rear-end collisions. This led to two critical failures: high operational cost due to expensive human time spent on clear \"no-fault\" cases, and revenue leakage because eligible cases were missed due to human error or fatigue. In high-volume Auto Insurance, missing even a small fraction of recoverable claims compounds to millions in annual losses.",
+        "constraintsAndRisks": "The economic trade-off was central: false positives create congestion and cost for the legal team, while false negatives represent direct financial loss. The earliest predictive signal came from unstructured text in the First Notice of Loss, which was often short, subjective, noisy, and written under stress. The model needed to function strictly as a triage filter rather than a judge, since final liability determination legally requires human review.",
+        "solutionAndArchitecture": "I executed a phased delivery to maximize ROI. Phase 1, the stop-the-bleeding MVP, used a text-classification model based only on the claim description. Even with limited input, it provided an immediate operational safety net by flagging high-probability cases that manual triage was missing. Phase 2 evolved into a multimodal XGBoost model combining structured data such as policy limits and vehicle type with NLP features extracted from the narrative. Phase 3 introduced the economic decision engine, the core differentiator, where I applied probability calibration such as isotonic regression to convert raw model scores into true probabilities and then computed the expected value of recovery against external legal costs, recommending pursuit only when the economics were favorable.",
+        "implementation": "",
+        "evaluation": "Success was defined by Financial Impact, not just F1-Score. We monitored the \"Recovery Rate\" of the flagged cohort and the \"Conversion Rate\" of the legal team (ensuring we weren't flooding them with low-value cases). Calibration plots were critical to validate the economic logic.",
+        "impact": "The MVP alone recovered ~2% of eligible claims that had previously been slipping through manual triage, representing millions in annualized revenue recovery at scale. It also drastically reduced the time analysts spent on dead-end claims and enabled them to focus on complex negotiation. It shifted the department from process-based triage to value-based prioritization.",
+        "keyLearnings": "Solidified a Pragmatic AI philosophy: shipping a high-impact MVP on day one is better than waiting months for a perfect model. Deepened technical expertise in Probability Calibration as a mandatory step for connecting ML outputs to financial P&L decisions (Expected Value calculation)."
+      }
+    },
+    {
+      "title": "Reputation Management – AI-Driven Moderation Appeals",
+      "executiveSummary": "Engineered an intelligent system to improve the success rate of moderation appeals submitted to a major third-party consumer reputation platform, comparable to Trustpilot or Yelp. The solution progressed through four maturity stages, beginning with statistical and linguistic pattern analysis and culminating in a fine-tuned LLM integrated directly into Microsoft Teams. The final version delivered an observed uplift of roughly 50 percent in successful appeal approvals, significantly enhancing the firm’s reputation management workflow.",
+      "details": {
+        "contextAndProblem": "The firm faced reputational exposure from unfair or invalid consumer complaints posted on an external review platform. Analysts were responsible for drafting moderation appeals to contest these cases, but the platform’s automated acceptance criteria were opaque and highly sensitive to phrasing. Because analysts relied on intuition rather than identifiable linguistic patterns, appeal quality varied significantly, rejection rates were high, and the overall process lacked consistency and predictability.",
+        "constraintsAndRisks": "The system required clear ethical boundaries: the objective was to standardize and clarify appeal language, not to exploit accidental correlations or loopholes in the platform’s automated checks. Any pattern identified needed to be linguistically and substantively justified. On the technical side, the model had to avoid overfitting to historical data because the platform’s acceptance criteria evolve over time. Strong governance was also essential, as appeals frequently include sensitive policy information and must comply with privacy requirements.",
+        "solutionAndArchitecture": "The solution was built incrementally and validated at each stage, beginning with linguistic mapping of terms correlated with success or failure to create a manual guide that produced roughly a 30% initial uplift, then introducing a predictive classifier where analysts could paste a draft and receive a success probability score with highlighted reasoning, followed by using clustering methods to identify structural elements common in successful appeals and turning these into an evidence-based playbook, and finally implementing a fine-tuned LLM in Azure AI Foundry that generated standardized, high-quality drafts from raw claim facts for analysts to review.",
+        "implementation": "Implementation was fully operationalized inside Microsoft Teams to minimize friction, with the backend orchestrated through Azure Logic Apps and Azure Functions, creating a seamless human-in-the-loop workflow in which the analyst remained the final decision-maker before submission.",
+        "evaluation": "Evaluation tracked two primary metrics: the appeal acceptance rate and the aggregate reputation scores, with periodic retraining applied to detect concept drift as the external platform’s moderation logic evolved.",
+        "impact": "The final fine-tuned LLM version delivered an observed ~50% increase in the volume and rate of accepted appeals compared to the baseline, significantly reduced analyst cognitive load and drafting time, and contributed to a sustained improvement in the company’s public reputation score, while acknowledging that this outcome reflects multiple concurrent customer-experience initiatives rather than a single causal factor.",
+        "keyLearnings": "Consolidated a full-cycle applied AI engineering approach, starting with statistical exploration, progressing through predictive modeling, and culminating in fine-tuned generative AI for text generation. Strengthened the ability to integrate LLMs into corporate operational workflows in Microsoft Teams with strict governance, automation, and reliability."
+      }
+    },
+    {
+      "title": "Retail Expiry Risk Modeling via Monte Carlo Simulation",
+      "executiveSummary": "Developed a stochastic model to estimate the probability of on-shelf stock expiration in retail environments without item-level batch tracking. By simulating inventory flows using Monte Carlo methods on daily sales and stock series, the system inferred the probable age of inventory. The feature became a major commercial driver, with ~70% of new enterprise clients citing the expiry risk model as a key factor for signing the contract.",
+      "details": {
+        "contextAndProblem": "Expiration date checking in retail was labor-intensive and inefficient, essentially a needle-in-a-haystack search. Field merchandisers spent hours checking products that were still fresh while missing the items that were actually expired. The available data, daily sales and stock counts, lacked batch-level granularity such as manufacturing or expiry dates, meaning we knew how much inventory existed but not how old it was. The goal was to direct the workforce toward high-risk SKUs by answering the question: given the history of arrivals and sales, what is the probability that a unit currently on the shelf has been there longer than its shelf-life?",
+        "constraintsAndRisks": "Structural uncertainty was the central constraint: without batch tracking, we cannot know exactly which unit was sold, and assuming perfect FIFO (First-In, First-Out) is unrealistic in physical retail because shoppers pick from the back and shelves get messy. The solution also had to scale to millions of SKU-Store combinations daily, and running heavy simulations for every item represented a significant computational cost risk.",
+        "solutionAndArchitecture": "I built a simulation engine from first principles to model the flow of goods. It began by inferring batch arrivals through the detection of positive inventory deltas adjusted for sales. Daily sales were then modeled using probabilistic withdrawal rather than deterministic FIFO, introducing an entropy parameter to reflect real-world shelf behavior where old and new stock mix unpredictably. Finally, a Monte Carlo engine ran approximately 1,000 simulations per SKU–store pair to produce a distribution of remaining stock age, and the resulting score represented the fraction of simulations in which expired stock was still present.",
+        "implementation": "To make the system viable for production, I implemented deterministic pruning to skip simulations in trivial cases such as when total stock was lower than cumulative sales over the last set of days, which makes the expiration risk mathematically zero. I used adaptive sampling to adjust the number of Monte Carlo iterations, running more simulations when the estimated probability was near the decision threshold and fewer when the risk was clearly very high or very low. I focused on ranking rather than absolute probability precision, since the operational requirement was to identify and check the top 50 highest-risk items.",
+        "evaluation": "",
+        "impact": "Operational efficiency increased substantially by converting a random audit process into a risk-targeted workflow, allowing merchandisers to focus exclusively on high-probability items and dramatically increasing the number of expired goods detected per hour worked. It also created strong market differentiation by solving a long-standing blind spot in the retail industry, as the ability to predict expiration risk without batch-level data became a unique selling point that directly closed new enterprise deals.",
+        "keyLearnings": "At the time, I addressed this analytical challenge with a robust and pragmatic Monte Carlo simulation. The modern approach would be to replace the simulation (approximate and computationally heavy) with a closed-form analytical solution. By modeling inventory flow as a Markov Chain with Multivariate Hypergeometric distributions, it becomes possible to compute the exact expiration probability in a single pass with O(1) complexity instead of relying on iterative simulation with O(N), delivering orders-of-magnitude improvements in scalability."
+      }
+    },
     {
       "title": "Genie Databricks: Talk to your data",
       "executiveSummary": "Architected and deployed a Natural Language to SQL (NL2SQL) interface integrated with Microsoft Teams, empowering Partners and the Executive Board to query financial and operational data with strict governance and audit trails. Through rigorous production tuning and knowledge curation, the NL2SQL accuracy rate improved from ~40% to ~95%.",
@@ -638,46 +683,8 @@
         "impact": "The solution made an implicit trade-off explicit by presenting two complementary predictions at the moment of drafting: the probability of winning the deal and the expected realization. With both signals available, Partners could make rational and transparent decisions, such as adjusting pricing strategies, renegotiating the fee structure when a scope appeared risky, or establishing commercial guardrails for contracts likely to generate margin pressure.",
         "keyLearnings": "Solidified the ability to build operational ML products under strict leakage control, ensuring that all predictive signals reflect only information available at decision time. Strengthened the skill of defining target variables in complex temporal processes, where the outcome depends on events that unfold long after the initial prediction. Gained further experience delivering models as governed, reproducible endpoints within a corporate data environment, turning analytical workflows into reliable production-grade systems."
       }
-    },
-    {
-      "title": "Reputation Management – AI-Driven Moderation Appeals",
-      "executiveSummary": "Engineered an intelligent system to improve the success rate of moderation appeals submitted to a major third-party consumer reputation platform, comparable to Trustpilot or Yelp. The solution progressed through four maturity stages, beginning with statistical and linguistic pattern analysis and culminating in a fine-tuned LLM integrated directly into Microsoft Teams. The final version delivered an observed uplift of roughly 50 percent in successful appeal approvals, significantly enhancing the firm’s reputation management workflow.",
-      "details": {
-        "contextAndProblem": "The firm faced reputational exposure from unfair or invalid consumer complaints posted on an external review platform. Analysts were responsible for drafting moderation appeals to contest these cases, but the platform’s automated acceptance criteria were opaque and highly sensitive to phrasing. Because analysts relied on intuition rather than identifiable linguistic patterns, appeal quality varied significantly, rejection rates were high, and the overall process lacked consistency and predictability.",
-        "constraintsAndRisks": "The system required clear ethical boundaries: the objective was to standardize and clarify appeal language, not to exploit accidental correlations or loopholes in the platform’s automated checks. Any pattern identified needed to be linguistically and substantively justified. On the technical side, the model had to avoid overfitting to historical data because the platform’s acceptance criteria evolve over time. Strong governance was also essential, as appeals frequently include sensitive policy information and must comply with privacy requirements.",
-        "solutionAndArchitecture": "The solution was built incrementally and validated at each stage, beginning with linguistic mapping of terms correlated with success or failure to create a manual guide that produced roughly a 30% initial uplift, then introducing a predictive classifier where analysts could paste a draft and receive a success probability score with highlighted reasoning, followed by using clustering methods to identify structural elements common in successful appeals and turning these into an evidence-based playbook, and finally implementing a fine-tuned LLM in Azure AI Foundry that generated standardized, high-quality drafts from raw claim facts for analysts to review.",
-        "implementation": "Implementation was fully operationalized inside Microsoft Teams to minimize friction, with the backend orchestrated through Azure Logic Apps and Azure Functions, creating a seamless human-in-the-loop workflow in which the analyst remained the final decision-maker before submission.",
-        "evaluation": "Evaluation tracked two primary metrics: the appeal acceptance rate and the aggregate reputation scores, with periodic retraining applied to detect concept drift as the external platform’s moderation logic evolved.",
-        "impact": "The final fine-tuned LLM version delivered an observed ~50% increase in the volume and rate of accepted appeals compared to the baseline, significantly reduced analyst cognitive load and drafting time, and contributed to a sustained improvement in the company’s public reputation score, while acknowledging that this outcome reflects multiple concurrent customer-experience initiatives rather than a single causal factor.",
-        "keyLearnings": "Consolidated a full-cycle applied AI engineering approach, starting with statistical exploration, progressing through predictive modeling, and culminating in fine-tuned generative AI for text generation. Strengthened the ability to integrate LLMs into corporate operational workflows in Microsoft Teams with strict governance, automation, and reliability."
-      }
-    },
-    {
-      "title": "Claims Subrogation & Economic Prioritization with ML",
-      "executiveSummary": "Architected a machine learning system to identify auto insurance claims eligible for Subrogation (recovery of costs from at-fault third parties). Adopting a pragmatic \"revenue-first\" strategy, I launched a text-based MVP to immediately stop revenue leakage, later evolving it into a multimodal system with an Economic Prioritization Layer based on calibrated probabilities.",
-      "details": {
-        "contextAndProblem": "Subrogation triage was a manual, bottlenecked process. Analysts spent hours reading free-text claim narratives to identify potential third-party liability such as rear-end collisions. This led to two critical failures: high operational cost due to expensive human time spent on clear \"no-fault\" cases, and revenue leakage because eligible cases were missed due to human error or fatigue. In high-volume Auto Insurance, missing even a small fraction of recoverable claims compounds to millions in annual losses.",
-        "constraintsAndRisks": "The economic trade-off was central: false positives create congestion and cost for the legal team, while false negatives represent direct financial loss. The earliest predictive signal came from unstructured text in the First Notice of Loss, which was often short, subjective, noisy, and written under stress. The model needed to function strictly as a triage filter rather than a judge, since final liability determination legally requires human review.",
-        "solutionAndArchitecture": "I executed a phased delivery to maximize ROI. Phase 1, the stop-the-bleeding MVP, used a text-classification model based only on the claim description. Even with limited input, it provided an immediate operational safety net by flagging high-probability cases that manual triage was missing. Phase 2 evolved into a multimodal XGBoost model combining structured data such as policy limits and vehicle type with NLP features extracted from the narrative. Phase 3 introduced the economic decision engine, the core differentiator, where I applied probability calibration such as isotonic regression to convert raw model scores into true probabilities and then computed the expected value of recovery against external legal costs, recommending pursuit only when the economics were favorable.",
-        "implementation": "",
-        "evaluation": "Success was defined by Financial Impact, not just F1-Score. We monitored the \"Recovery Rate\" of the flagged cohort and the \"Conversion Rate\" of the legal team (ensuring we weren't flooding them with low-value cases). Calibration plots were critical to validate the economic logic.",
-        "impact": "The MVP alone recovered ~2% of eligible claims that had previously been slipping through manual triage, representing millions in annualized revenue recovery at scale. It also drastically reduced the time analysts spent on dead-end claims and enabled them to focus on complex negotiation. It shifted the department from process-based triage to value-based prioritization.",
-        "keyLearnings": "Solidified a Pragmatic AI philosophy: shipping a high-impact MVP on day one is better than waiting months for a perfect model. Deepened technical expertise in Probability Calibration as a mandatory step for connecting ML outputs to financial P&L decisions (Expected Value calculation)."
-      }
-    },
-    {
-      "title": "Retail Expiry Risk Modeling via Monte Carlo Simulation",
-      "executiveSummary": "Developed a stochastic model to estimate the probability of on-shelf stock expiration in retail environments without item-level batch tracking. By simulating inventory flows using Monte Carlo methods on daily sales and stock series, the system inferred the probable age of inventory. The feature became a major commercial driver, with ~70% of new enterprise clients citing the expiry risk model as a key factor for signing the contract.",
-      "details": {
-        "contextAndProblem": "Expiration date checking in retail was labor-intensive and inefficient, essentially a needle-in-a-haystack search. Field merchandisers spent hours checking products that were still fresh while missing the items that were actually expired. The available data, daily sales and stock counts, lacked batch-level granularity such as manufacturing or expiry dates, meaning we knew how much inventory existed but not how old it was. The goal was to direct the workforce toward high-risk SKUs by answering the question: given the history of arrivals and sales, what is the probability that a unit currently on the shelf has been there longer than its shelf-life?",
-        "constraintsAndRisks": "Structural uncertainty was the central constraint: without batch tracking, we cannot know exactly which unit was sold, and assuming perfect FIFO (First-In, First-Out) is unrealistic in physical retail because shoppers pick from the back and shelves get messy. The solution also had to scale to millions of SKU-Store combinations daily, and running heavy simulations for every item represented a significant computational cost risk.",
-        "solutionAndArchitecture": "I built a simulation engine from first principles to model the flow of goods. It began by inferring batch arrivals through the detection of positive inventory deltas adjusted for sales. Daily sales were then modeled using probabilistic withdrawal rather than deterministic FIFO, introducing an entropy parameter to reflect real-world shelf behavior where old and new stock mix unpredictably. Finally, a Monte Carlo engine ran approximately 1,000 simulations per SKU–store pair to produce a distribution of remaining stock age, and the resulting score represented the fraction of simulations in which expired stock was still present.",
-        "implementation": "To make the system viable for production, I implemented deterministic pruning to skip simulations in trivial cases such as when total stock was lower than cumulative sales over the last set of days, which makes the expiration risk mathematically zero. I used adaptive sampling to adjust the number of Monte Carlo iterations, running more simulations when the estimated probability was near the decision threshold and fewer when the risk was clearly very high or very low. I focused on ranking rather than absolute probability precision, since the operational requirement was to identify and check the top 50 highest-risk items.",
-        "evaluation": "",
-        "impact": "Operational efficiency increased substantially by converting a random audit process into a risk-targeted workflow, allowing merchandisers to focus exclusively on high-probability items and dramatically increasing the number of expired goods detected per hour worked. It also created strong market differentiation by solving a long-standing blind spot in the retail industry, as the ability to predict expiration risk without batch-level data became a unique selling point that directly closed new enterprise deals.",
-        "keyLearnings": "At the time, I addressed this analytical challenge with a robust and pragmatic Monte Carlo simulation. The modern approach would be to replace the simulation (approximate and computationally heavy) with a closed-form analytical solution. By modeling inventory flow as a Markov Chain with Multivariate Hypergeometric distributions, it becomes possible to compute the exact expiration probability in a single pass with O(1) complexity instead of relying on iterative simulation with O(N), delivering orders-of-magnitude improvements in scalability."
-      }
     }
+    
   ],
   "achievements": [
     {
@@ -716,7 +723,7 @@
   ],
   "resume": [
     {
-      "title": "AI Engineer / Specialist Data Scientist",
+      "title": "Sr Data Scientist / AI Engineer",
       "company": "Demarest",
       "period": "2025 - Present",
       "summary": "End-to-end planning and delivery of AI and data solutions: requirements definition, infrastructure sizing, statistical models, AI and LLM applications, CI/CD, testing, automation, standards, security, governance, cross-functional collaboration, and technical documentation.",
